@@ -41,6 +41,9 @@ module.exports = (sequelize, Sequelize) => {
       user_status: {
         type: Sequelize.BOOLEAN,
       },
+      admin: {
+        type: Sequelize.BOOLEAN,
+      },
       authentication_token: {
         type: Sequelize.STRING,
       },

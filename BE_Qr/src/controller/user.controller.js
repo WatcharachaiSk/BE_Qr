@@ -7,8 +7,20 @@ const jwt = require("jsonwebtoken");
 //Register
 const createUser = async (req, res) => {
   try {
-    const { username, password } = req.body;
- 
+    const {
+      username,
+      password,
+      firstname,
+      lastname,
+      nickname,
+      telephone,
+      email,
+      university,
+      faculty,
+      department,
+      admin,
+    } = req.body;
+
     // check if user already exist
     // Validate if user exist in our database
     // const oldUser = await Users.findOne({ username });
@@ -24,6 +36,15 @@ const createUser = async (req, res) => {
       username: username,
       password: encryptedPassword,
       user_status: true,
+      firstname: firstname,
+      lastname: lastname,
+      nickname: nickname,
+      telephone: telephone,
+      email: email.toLowerCase(),
+      university: university,
+      faculty: faculty,
+      department: department,
+      admin: admin,
     });
 
     // Create token
