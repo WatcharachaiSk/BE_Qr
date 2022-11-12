@@ -32,10 +32,16 @@ const { Facultys, Departments, Buildings, Locations } = db;
 Facultys.hasMany(Departments);
 Departments.belongsTo(Facultys);
 
+Facultys.hasMany(Buildings);
 Departments.hasMany(Buildings);
+Buildings.belongsTo(Facultys);
 Buildings.belongsTo(Departments);
 
+Facultys.hasMany(Locations);
+Departments.hasMany(Locations);
 Buildings.hasMany(Locations);
+Locations.belongsTo(Facultys);
+Locations.belongsTo(Departments);
 Locations.belongsTo(Buildings);
 
 module.exports = db;

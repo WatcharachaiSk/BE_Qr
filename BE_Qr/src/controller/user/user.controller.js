@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Users } = require("../model/index.model");
+const { Users } = require("../../model/index.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 

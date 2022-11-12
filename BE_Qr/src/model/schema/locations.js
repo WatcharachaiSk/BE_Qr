@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
   const location = sequelize.define(
     "locations",
     {
-      b_id: {
+      l_id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
