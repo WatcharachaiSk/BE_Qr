@@ -12,6 +12,6 @@ db.sequelize.sync();
 
 app.use("/api", require("./src/routes/index.routes.js"));
 
-app.listen(3000, () => {
+app.listen(3500, () => {
   console.log("server is running");
 });
