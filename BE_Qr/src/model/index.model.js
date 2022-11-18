@@ -24,12 +24,15 @@ db.Users = require("./schema/user/user.js")(sequelize, Sequelize);
 db.Profiles = require("./schema/user/profile.js")(sequelize, Sequelize);
 
 // Locations
-db.Facultys = require("./schema/faculty.js")(sequelize, Sequelize);
-db.Departments = require("./schema/department.js")(sequelize, Sequelize);
-db.Buildings = require("./schema/building.js")(sequelize, Sequelize);
-db.Locations = require("./schema/locations.js")(sequelize, Sequelize);
+db.Facultys = require("./schema/locations/faculty.js")(sequelize, Sequelize);
+db.Departments = require("./schema/locations/department.js")(
+  sequelize,
+  Sequelize
+);
+db.Buildings = require("./schema/locations/building.js")(sequelize, Sequelize);
+db.Locations = require("./schema/locations/locations.js")(sequelize, Sequelize);
 // Item
-db.Categorys = require("./schema/category.js")(sequelize, Sequelize);
+db.Categorys = require("./schema/item/category.js")(sequelize, Sequelize);
 db.TypeItems = require("./schema/item/typeItem")(sequelize, Sequelize);
 db.Items = require("./schema/item/item.js")(sequelize, Sequelize);
 
@@ -72,13 +75,23 @@ Locations.belongsTo(Departments);
 Locations.belongsTo(Buildings);
 
 // TypeItems
+Departments.hasMany(TypeItems);
 Categorys.hasMany(TypeItems);
 TypeItems.belongsTo(Categorys);
+TypeItems.belongsTo(Departments);
 
 // Items
+Facultys.hasMany(Items);
+Departments.hasMany(Items);
+Buildings.hasMany(Items);
 Categorys.hasMany(Items);
+Locations.hasMany(Items);
 TypeItems.hasMany(Items);
 Items.belongsTo(TypeItems);
 Items.belongsTo(Categorys);
+Items.belongsTo(Facultys);
+Items.belongsTo(Departments);
+Items.belongsTo(Buildings);
+Items.belongsTo(Locations);
 
 module.exports = db;

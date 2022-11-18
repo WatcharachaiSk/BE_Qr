@@ -14,9 +14,6 @@ module.exports = (sequelize, Sequelize) => {
       code: {
         type: Sequelize.STRING(50),
       },
-      agency: {
-        type: Sequelize.STRING,
-      },
       quantity: {
         type: Sequelize.INTEGER(10),
       },

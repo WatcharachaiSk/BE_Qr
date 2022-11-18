@@ -5,6 +5,9 @@ const FacultyController = require("../controller/locations/faculty.controller");
 const DepartmentController = require("../controller/locations/department.controller");
 const BuildingController = require("../controller/locations/building.controller");
 const LocationController = require("../controller/locations/location.controller");
+const CategoryController = require("../controller/items/category.controller");
+const TypeItemController = require("../controller/items/typeItem.controller");
+const ItemController = require("../controller/items/item.controller");
 
 //User
 router.post("/createUser", UserController.createUser);
@@ -35,5 +38,23 @@ router.post("/createLocation", LocationController.createLocation);
 router.get("/getLocation", LocationController.getLocation);
 router.put("/updateLocation/:id", LocationController.updateLocation);
 router.post("/deleteLocation", LocationController.deleteLocation);
+
+// Category
+router.post("/createCategory", CategoryController.createCategory);
+router.get("/getCategory", CategoryController.getCategory);
+router.put("/updateCategory/:id", CategoryController.updateCategory);
+router.post("/deleteCategory", CategoryController.deleteCategory);
+
+// TypeItems
+router.post("/createTypeItem", TypeItemController.createTypeItem);
+router.get("/getTypeItem", TypeItemController.getTypeItem);
+router.put("/updateTypeItem/:id", TypeItemController.updateTypeItem);
+router.post("/deleteTypeItem", TypeItemController.deleteTypeItem);
+
+// Item
+router.post("/createItem", ItemController.createItem);
+router.get("/getItem", ItemController.getItem);
+router.put("/updateItem/:id", ItemController.updateItem);
+router.post("/deleteItem", ItemController.deleteItem);
 
 module.exports = router;
