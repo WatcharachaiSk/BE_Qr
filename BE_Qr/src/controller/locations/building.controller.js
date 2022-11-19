@@ -6,11 +6,12 @@ const { Buildings } = require("../../model/index.model");
 
 const createBuilding = async (req, res) => {
   try {
-    const { nameTH, nameEN, departmentDId } = req.body;
+    const { nameTH, nameEN, facultyFId, departmentDId } = req.body;
 
     const createBuilding = await Buildings.create({
       nameTH: nameTH,
       nameEN: nameEN,
+      facultyFId: facultyFId,
       departmentDId: departmentDId,
     });
 
@@ -41,12 +42,13 @@ const getBuilding = async (req, res) => {
 const updateBuilding = async (req, res) => {
   try {
     const b_id = req.params.id;
-    const { nameTH, nameEN, departmentDId } = req.body;
+    const { nameTH, nameEN, departmentDId, facultyFId } = req.body;
 
     const updateBuilding = await Buildings.update(
       {
         nameTH: nameTH,
         nameEN: nameEN,
+        facultyFId: facultyFId,
         departmentDId: departmentDId,
       },
       {

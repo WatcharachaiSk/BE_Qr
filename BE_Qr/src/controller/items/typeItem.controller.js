@@ -6,6 +6,8 @@ const { TypeItems } = require("../../model/index.model");
 
 // Create
 const createTypeItem = async (req, res) => {
+  //console.log("res.profilePfId = " + res.profilePfId);
+  const profilePfId = await res.profilePfId;
   try {
     const {
       name,
@@ -29,6 +31,7 @@ const createTypeItem = async (req, res) => {
       purchase_date: purchase_date,
       departmentDId: departmentDId,
       categoryCateId: categoryCateId,
+      profilePfId: profilePfId,
     });
 
     return res.send({ createTypeItem });

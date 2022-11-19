@@ -7,19 +7,7 @@ const jwt = require("jsonwebtoken");
 //Register
 const createUser = async (req, res) => {
   try {
-    const {
-      username,
-      password,
-      firstname,
-      lastname,
-      nickname,
-      telephone,
-      email,
-      university,
-      faculty,
-      department,
-      admin,
-    } = req.body;
+    const { username, password, admin } = req.body;
 
     // check if user already exist
     // Validate if user exist in our database
@@ -32,31 +20,25 @@ const createUser = async (req, res) => {
     //Encrypt user password
     encryptedPassword = await bcrypt.hash(password, 10);
 
+    // username	password	user_status	admin
+    //authentication_token	web_token
     const user = await Users.create({
       username: username,
       password: encryptedPassword,
       user_status: true,
-      firstname: firstname,
-      lastname: lastname,
-      nickname: nickname,
-      telephone: telephone,
-      email: email.toLowerCase(),
-      university: university,
-      faculty: faculty,
-      department: department,
       admin: admin,
     });
 
     // Create token
     const token = jwt.sign(
-      { user_id: user.user_id, username },
+      { user_id: user.user_id, username, amdin: user.admin },
       process.env.TOKEN_KEY,
       {
         expiresIn: "2h",
       }
     );
     const autToken = jwt.sign(
-      { user_id: user.user_id, username },
+      { user_id: user.user_id, username, amdin: user.admin },
       process.env.TOKEN_KEY
     );
 
@@ -85,18 +67,18 @@ const loginUser = async (req, res) => {
   try {
     // Get user input
     const { username, password } = req.body;
-
-    // Validate user input
-    if (!(username && password)) {
-      res.status(400).send("All input is required");
-    }
+    //console.log("username = " + username + " password " + password);
+    // // Validate user input
+    // if (!(username && password)) {
+    //   res.status(400).send("All input is required");
+    // }
     // Validate if user exist in our database
-    const user = await Users.findOne({ username });
+    const user = await Users.findOne({ where: { username: username } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user.user_id, username },
+        { user_id: user.user_id, username, amdin: user.admin },
         process.env.TOKEN_KEY,
         {
           expiresIn: "2h",
@@ -107,9 +89,9 @@ const loginUser = async (req, res) => {
       user.web_token = token;
 
       // user
-      res.status(200).json(user);
+      return res.status(200).json(user);
     }
-    res.status(400).send("Invalid Credentials");
+    return res.status(400).send("Invalid Credentials");
   } catch (err) {
     console.log(err);
   }
@@ -129,13 +111,16 @@ const getUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password, user_status, admin } = req.body;
+
+    encryptedPassword = await bcrypt.hash(password, 10);
 
     const updateUser = await Users.update(
       {
         username: username,
-        password: password,
+        password: encryptedPassword,
+        user_status: user_status,
+        admin: admin,
       },
       {
         where: {

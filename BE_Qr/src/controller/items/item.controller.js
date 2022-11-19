@@ -7,6 +7,7 @@ const createItem = async (req, res) => {
   try {
     /* name code status_item	
   facultyFId departmentDId buildingBId categoryCateId	typeItemTypeId */
+    const profilePfId = await res.profilePfId;
     const {
       name,
       code,
@@ -29,6 +30,7 @@ const createItem = async (req, res) => {
       categoryCateId: categoryCateId,
       locationLId: locationLId,
       typeItemTypeId: typeItemTypeId,
+      profilePfId: profilePfId,
     });
 
     return res.send({ createItem });

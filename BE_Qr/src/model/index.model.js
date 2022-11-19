@@ -50,7 +50,7 @@ const {
 
 // Users
 Users.hasMany(Profiles);
-Profiles.hasMany(Users);
+Profiles.belongsTo(Users);
 Facultys.hasMany(Profiles);
 Departments.hasMany(Profiles);
 Profiles.belongsTo(Facultys);
@@ -77,6 +77,8 @@ Locations.belongsTo(Buildings);
 // TypeItems
 Departments.hasMany(TypeItems);
 Categorys.hasMany(TypeItems);
+Profiles.hasMany(TypeItems);
+TypeItems.belongsTo(Profiles);
 TypeItems.belongsTo(Categorys);
 TypeItems.belongsTo(Departments);
 
@@ -87,6 +89,8 @@ Buildings.hasMany(Items);
 Categorys.hasMany(Items);
 Locations.hasMany(Items);
 TypeItems.hasMany(Items);
+Profiles.hasMany(Items);
+Items.belongsTo(Profiles);
 Items.belongsTo(TypeItems);
 Items.belongsTo(Categorys);
 Items.belongsTo(Facultys);

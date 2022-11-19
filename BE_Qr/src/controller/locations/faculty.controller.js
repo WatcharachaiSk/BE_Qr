@@ -1,8 +1,8 @@
 require("dotenv").config();
 
 const { Facultys } = require("../../model/index.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+// const bcrypt = require("bcryptjs");
+// const jwt = require("jsonwebtoken");
 
 const createFaculty = async (req, res) => {
   try {
