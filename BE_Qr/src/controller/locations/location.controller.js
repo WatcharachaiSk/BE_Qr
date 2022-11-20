@@ -41,7 +41,7 @@ const getLocation = async (req, res) => {
 
       order: [["l_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Location });
+    return res.send(Location);
   } catch (err) {
     return res.status(500).send(err.message);
   }

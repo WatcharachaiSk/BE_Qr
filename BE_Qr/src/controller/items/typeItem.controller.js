@@ -1,8 +1,16 @@
-require("dotenv").config();
+// require("dotenv").config();
 
-const { TypeItems } = require("../../model/index.model");
+const {
+  TypeItems,
+  Facultys,
+  Departments,
+  Categorys,
+  Profiles,
+} = require("../../model/index.model");
+
 // name	code quantity	unit	price_unit
-//total_price	purchase_date departmentDId	categoryCateId
+//total_price	purchase_date
+//*   departmentDId	categoryCateId profilePfId
 
 // Create
 const createTypeItem = async (req, res) => {
@@ -39,12 +47,38 @@ const createTypeItem = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
-// GET
+// GET ALL
 const getTypeItem = async (req, res) => {
   try {
     const TypeItem = await TypeItems.findAll({
+      include: [
+        {
+          model: Departments,
+          attributes: ["d_id", "nameTH", "nameEN", "facultyFId"],
+        },
+        {
+          model: Categorys,
+          attributes: ["cate_id", "name"],
+        },
+
+        {
+          model: Profiles,
+          attributes: [
+            "pf_id",
+            "firstname",
+            "lastname",
+            "nickname",
+            "telephone",
+            "email",
+            "userUserId",
+            "facultyFId",
+            "departmentDId",
+          ],
+        },
+      ],
       order: [["type_id", "ASC"]],
     });
+
     return res.send({ status: 1, data: TypeItem });
   } catch (err) {
     return res.status(500).send(err.message);

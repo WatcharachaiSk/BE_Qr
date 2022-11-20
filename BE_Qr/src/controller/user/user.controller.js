@@ -29,19 +29,11 @@ const createUser = async (req, res) => {
       admin: admin,
     });
 
-    // Create token
-    const token = jwt.sign(
-      { user_id: user.user_id, username, amdin: user.admin },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
+    // Create token autToken for App
     const autToken = jwt.sign(
-      { user_id: user.user_id, username, amdin: user.admin },
+      { user_id: user.user_id, username, admin: user.admin },
       process.env.TOKEN_KEY
     );
-
     const updateUser = await Users.update(
       {
         authentication_token: autToken,
@@ -53,10 +45,23 @@ const createUser = async (req, res) => {
       }
     );
 
-    // save user token
-    user.web_token = token;
+    const userSend = await Users.findOne({
+      where: { user_id: user.user_id },
+      attributes: [
+        "user_id",
+        "username",
+        "user_status",
+        "admin",
+        "createdAt",
+        "updatedAt",
+        "authentication_token",
+        "web_token",
+      ],
+      order: [["user_id", "ASC"]],
+    });
 
-    return res.send({ user });
+    // user
+    return res.status(200).json(userSend);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -69,27 +74,42 @@ const loginUser = async (req, res) => {
     const { username, password } = req.body;
     //console.log("username = " + username + " password " + password);
     // // Validate user input
-    // if (!(username && password)) {
-    //   res.status(400).send("All input is required");
-    // }
+    if (!(username && password)) {
+      res.status(400).send("All input is required");
+    }
     // Validate if user exist in our database
-    const user = await Users.findOne({ where: { username: username } });
+    const user = await Users.findOne({
+      where: { username: username },
+    });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       // Create token
       const token = jwt.sign(
-        { user_id: user.user_id, username, amdin: user.admin },
+        { user_id: user.user_id, username, admin: user.admin },
         process.env.TOKEN_KEY,
         {
           expiresIn: "2h",
         }
       );
 
+      const userSend = await Users.findOne({
+        where: { user_id: user.user_id },
+        attributes: [
+          "user_id",
+          "username",
+          "user_status",
+          "admin",
+          "createdAt",
+          "updatedAt",
+          "authentication_token",
+          "web_token",
+        ],
+        order: [["user_id", "ASC"]],
+      });
       // save user token
-      user.web_token = token;
-
+      userSend.web_token = token;
       // user
-      return res.status(200).json(user);
+      return res.status(200).json(userSend);
     }
     return res.status(400).send("Invalid Credentials");
   } catch (err) {
@@ -100,6 +120,14 @@ const loginUser = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const users = await Users.findAll({
+      attributes: [
+        "user_id",
+        "username",
+        "user_status",
+        "admin",
+        "createdAt",
+        "updatedAt",
+      ],
       order: [["user_id", "ASC"]],
     });
     return res.send({ status: 1, data: users });

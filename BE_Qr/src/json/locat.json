@@ -1,0 +1,72 @@
+[
+  {
+    "l_id": 1,
+    "nameTH": "ห้องLab14",
+    "nameEN": "Lab14",
+    "floor": 1,
+    "createdAt": "2022-11-20T07:01:54.000Z",
+    "updatedAt": "2022-11-20T07:01:54.000Z",
+    "facultyFId": 1,
+    "departmentDId": 1,
+    "buildingBId": 1,
+    "faculty": {
+      "f_id": 1,
+      "nameTH": "วิศว15a9",
+      "nameEN": "EEE159",
+      "createdAt": "2022-11-20T07:01:40.000Z",
+      "updatedAt": "2022-11-20T07:01:40.000Z"
+    },
+    "department": {
+      "d_id": 1,
+      "nameTH": "คอม",
+      "nameEN": "ฺCom",
+      "createdAt": "2022-11-20T07:01:45.000Z",
+      "updatedAt": "2022-11-20T07:01:45.000Z",
+      "facultyFId": 1
+    },
+    "building": {
+      "b_id": 1,
+      "nameTH": "13",
+      "nameEN": "13",
+      "createdAt": "2022-11-20T07:01:50.000Z",
+      "updatedAt": "2022-11-20T07:01:50.000Z",
+      "facultyFId": 1,
+      "departmentDId": 1
+    }
+  },
+  {
+    "l_id": 2,
+    "nameTH": "ห้องLab15",
+    "nameEN": "Lab14",
+    "floor": 1,
+    "createdAt": "2022-11-20T07:09:34.000Z",
+    "updatedAt": "2022-11-20T07:09:34.000Z",
+    "facultyFId": 1,
+    "departmentDId": 1,
+    "buildingBId": 1,
+    "faculty": {
+      "f_id": 1,
+      "nameTH": "วิศว15a9",
+      "nameEN": "EEE159",
+      "createdAt": "2022-11-20T07:01:40.000Z",
+      "updatedAt": "2022-11-20T07:01:40.000Z"
+    },
+    "department": {
+      "d_id": 1,
+      "nameTH": "คอม",
+      "nameEN": "ฺCom",
+      "createdAt": "2022-11-20T07:01:45.000Z",
+      "updatedAt": "2022-11-20T07:01:45.000Z",
+      "facultyFId": 1
+    },
+    "building": {
+      "b_id": 1,
+      "nameTH": "13",
+      "nameEN": "13",
+      "createdAt": "2022-11-20T07:01:50.000Z",
+      "updatedAt": "2022-11-20T07:01:50.000Z",
+      "facultyFId": 1,
+      "departmentDId": 1
+    }
+  }
+]

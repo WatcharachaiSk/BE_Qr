@@ -35,6 +35,15 @@ db.Locations = require("./schema/locations/locations.js")(sequelize, Sequelize);
 db.Categorys = require("./schema/item/category.js")(sequelize, Sequelize);
 db.TypeItems = require("./schema/item/typeItem")(sequelize, Sequelize);
 db.Items = require("./schema/item/item.js")(sequelize, Sequelize);
+// Update Item
+db.HistoryStatusItems = require("./schema/history/historyStatusItem")(
+  sequelize,
+  Sequelize
+);
+db.UpDateStatuses = require("./schema/history/upDateStatuses")(
+  sequelize,
+  Sequelize
+);
 
 const {
   Users,
@@ -46,6 +55,8 @@ const {
   Categorys,
   TypeItems,
   Items,
+  HistoryStatusItems,
+  UpDateStatuses,
 } = db;
 
 // Users
@@ -97,5 +108,16 @@ Items.belongsTo(Facultys);
 Items.belongsTo(Departments);
 Items.belongsTo(Buildings);
 Items.belongsTo(Locations);
+
+// History Item UpdateItem
+Items.hasMany(HistoryStatusItems);
+Locations.hasMany(HistoryStatusItems);
+HistoryStatusItems.belongsTo(Items);
+HistoryStatusItems.belongsTo(Locations);
+// Update
+Items.hasMany(UpDateStatuses);
+Locations.hasMany(UpDateStatuses);
+UpDateStatuses.belongsTo(Items);
+UpDateStatuses.belongsTo(Locations);
 
 module.exports = db;

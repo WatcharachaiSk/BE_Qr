@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+// * controller
 const UserController = require("../controller/user/user.controller");
 const ProfileController = require("../controller/user/profile.controller");
 const FacultyController = require("../controller/locations/faculty.controller");
@@ -9,9 +10,14 @@ const LocationController = require("../controller/locations/location.controller"
 const CategoryController = require("../controller/items/category.controller");
 const TypeItemController = require("../controller/items/typeItem.controller");
 const ItemController = require("../controller/items/item.controller");
+const HistoryStItemController = require("../controller/history/historyStItem.controller");
+const GetItem = require("../controller/items/getItem");
+
+// *  = (req, res, next) =>{ }
 const auth = require("../middleware/auth");
 const checkProfile = require("../controller/user/checkProfile");
 const getIdProfile = require("../components/userIdProfile");
+const verifyIsAdmin = require("../components/verifyIsAdmin");
 
 // test
 router.post("/welcome", auth, (req, res) => {
@@ -25,7 +31,7 @@ router.post("/welcome", auth, (req, res) => {
 //User
 router.post("/createUser", UserController.createUser);
 router.post("/loginUser", UserController.loginUser);
-router.get("/getUsers", auth, UserController.getUsers);
+router.get("/getUsers", auth, verifyIsAdmin, UserController.getUsers);
 router.put("/updateUser/:userId", auth, UserController.updateUser);
 
 // Profile
@@ -87,7 +93,21 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 // Item
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.get("/getItem", auth, ItemController.getItem);
+router.get("/getItem/:id", auth, GetItem.getItemById);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
 router.post("/deleteItem", auth, ItemController.deleteItem);
+
+// HistoryStItem
+router.get(
+  "/getHistoryStatusItem",
+  auth,
+  HistoryStItemController.getHistoryStItem
+);
+router.post(
+  "/updateStetus",
+  auth,
+  getIdProfile,
+  HistoryStItemController.updateStetus
+);
 
 module.exports = router;
