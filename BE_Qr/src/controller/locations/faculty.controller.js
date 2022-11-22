@@ -23,7 +23,7 @@ const getFaculty = async (req, res) => {
     const Faculty = await Facultys.findAll({
       order: [["f_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Faculty });
+    return res.send(Faculty);
   } catch (err) {
     return res.status(500).send(err.message);
   }

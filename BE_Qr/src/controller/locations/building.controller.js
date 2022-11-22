@@ -33,7 +33,7 @@ const getBuilding = async (req, res) => {
       ],
       order: [["b_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Building });
+    return res.send(Building);
   } catch (err) {
     return res.status(500).send(err.message);
   }

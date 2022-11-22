@@ -17,6 +17,9 @@ module.exports = (sequelize, Sequelize) => {
       status_item: {
         type: Sequelize.BOOLEAN(1),
       },
+      update_Stetus_Id: {
+        type: Sequelize.INTEGER,
+      },
     },
     {
       createdAt: true,

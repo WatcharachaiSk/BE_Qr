@@ -1,0 +1,9 @@
+{
+  "username": "1234",
+  "user_status": true,
+  "admin": true,
+  "createdAt": "2022-11-20T07:00:36.000Z",
+  "updatedAt": "2022-11-20T07:00:36.000Z",
+  "authentication_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IjEyMzQiLCJhbWRpbiI6dHJ1ZSwiaWF0IjoxNjY4OTI3NjM2fQ.YcG2lnv47jmewdQ_kcYyNcjEvHcepbx96naYD0YSL80",
+  "web_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6IjEyMzQiLCJhZG1pbiI6dHJ1ZSwiaWF0IjoxNjY5MDMyMTI1LCJleHAiOjE2NjkwMzkzMjV9.IOOd_CmfHUCxeNZSHxxJC0kggboqCWjgpnbbI6Zum3Q"
+}

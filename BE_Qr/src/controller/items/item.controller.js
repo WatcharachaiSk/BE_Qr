@@ -9,6 +9,7 @@ const {
   Categorys,
   TypeItems,
   Profiles,
+  UpDateStatuses,
 } = require("../../model/index.model");
 
 // CREATE
@@ -51,7 +52,7 @@ const createItem = async (req, res) => {
 // GET All
 const getItem = async (req, res) => {
   try {
-    const Item = await Items.findAll({
+    const items = await Items.findAll({
       include: [
         {
           model: Facultys,
@@ -75,10 +76,14 @@ const getItem = async (req, res) => {
         {
           model: Profiles,
         },
+        {
+          model: UpDateStatuses,
+        },
       ],
       order: [["item_id", "ASC"]],
     });
-    return res.send(Item);
+
+    return res.send(items);
   } catch (err) {
     return res.status(500).send(err.message);
   }

@@ -7,7 +7,11 @@ const verifyToken = (req, res, next) => {
     req.body.token || req.query.token || req.headers["x-access-token"];
 
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    const data = {
+      err: "A token is required for authentication",
+      status: "wantLogin",
+    };
+    return res.status(403).send(data);
   }
   try {
     const decoded = jwt.verify(token, config.TOKEN_KEY);
@@ -17,7 +21,11 @@ const verifyToken = (req, res, next) => {
     // res.locals.amdin = req.user;
     // return res.status(200).send(req.user.user_id);
   } catch (err) {
-    return res.status(401).send("Invalid Token");
+    const data = {
+      err: "Invalid Token",
+      status: "wantLogin",
+    };
+    return res.status(401).send(data);
   }
   next();
 };

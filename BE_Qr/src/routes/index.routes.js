@@ -94,6 +94,7 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.get("/getItem", auth, ItemController.getItem);
 router.get("/getItem/:id", auth, GetItem.getItemById);
+router.get("/getItemCategory/:id", auth, GetItem.getItemByCategoryID);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
 router.post("/deleteItem", auth, ItemController.deleteItem);
 

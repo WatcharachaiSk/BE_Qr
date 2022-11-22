@@ -95,7 +95,6 @@ const loginUser = async (req, res) => {
       const userSend = await Users.findOne({
         where: { user_id: user.user_id },
         attributes: [
-          "user_id",
           "username",
           "user_status",
           "admin",

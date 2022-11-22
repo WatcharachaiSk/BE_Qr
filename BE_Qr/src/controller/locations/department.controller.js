@@ -29,7 +29,7 @@ const getDepartment = async (req, res) => {
       ],
       order: [["d_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Department });
+    return res.send(Department);
   } catch (err) {
     return res.status(500).send(err.message);
   }

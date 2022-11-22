@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Categorys } = require("../../model/index.model");
+const { Categorys, Items } = require("../../model/index.model");
 
 // Create
 const createCategory = async (req, res) => {
@@ -20,9 +20,16 @@ const createCategory = async (req, res) => {
 const getCategory = async (req, res) => {
   try {
     const Category = await Categorys.findAll({
+      include: [
+        {
+          model: Items,
+          attributes: ["item_id", "name"],
+        },
+      ],
       order: [["cate_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Category });
+
+    return res.send(Category);
   } catch (err) {
     return res.status(500).send(err.message);
   }

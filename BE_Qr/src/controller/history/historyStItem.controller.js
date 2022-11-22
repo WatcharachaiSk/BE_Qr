@@ -52,7 +52,7 @@ const updateStetus = async (req, res, next) => {
     const isHave = await UpDateStatuses.findOne({
       where: { itemItemId: itemItemId },
     });
-    console.log(isHave.updateSt_id);
+    // console.log(isHave.updateSt_id);
 
     if (isHave) {
       await UpDateStatuses.update(
@@ -80,23 +80,27 @@ const updateStetus = async (req, res, next) => {
         inspected_at: await historyStIten.createdAt,
       });
     }
+    // console.log(updateStetus.createdAt);
     const updateStetus = await UpDateStatuses.findOne({
       where: { itemItemId: itemItemId },
     });
+    await Items.update(
+      {
+        status_item: status,
+        update_Stetus_Id: updateStetus.updateSt_id,
+      },
+      {
+        where: {
+          item_id: itemItemId,
+        },
+      }
+    );
 
-    // console.log(updateStetus.createdAt);
-    // const updateItem = await Items.update(
-    //   {
-    //     status_item: status,
-    //   },
-    //   {
-    //     where: {
-    //       item_id: itemItemId,
-    //     },
-    //   }
-    // );
+    const items = await Items.findOne({
+      where: { item_id: itemItemId },
+    });
 
-    return res.send({ updateStetus });
+    return res.send({ updateStetus, items });
   } catch (err) {
     return res.status(500).send(err.message);
   }
