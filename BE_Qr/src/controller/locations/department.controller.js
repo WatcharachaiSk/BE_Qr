@@ -35,6 +35,24 @@ const getDepartment = async (req, res) => {
   }
 };
 
+const getDepartmentByFty_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Department = await Departments.findAll({
+      where: { facultyFId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+      ],
+      order: [["d_id", "ASC"]],
+    });
+    return res.send(Department);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
 const updateDepartment = async (req, res) => {
   try {
     const d_id = req.params.id;
@@ -78,4 +96,5 @@ module.exports = {
   getDepartment: getDepartment,
   updateDepartment: updateDepartment,
   deleteDepartment: deleteDepartment,
+  getDepartmentByFty_Id: getDepartmentByFty_Id,
 };

@@ -46,6 +46,30 @@ const getLocation = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
+const getLocationByBud_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Location = await Locations.findAll({
+      where: { buildingBId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+      ],
+
+      order: [["l_id", "ASC"]],
+    });
+    return res.send(Location);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
 
 const updateLocation = async (req, res) => {
   try {
@@ -90,4 +114,5 @@ module.exports = {
   getLocation: getLocation,
   updateLocation: updateLocation,
   deleteLocation: deleteLocation,
+  getLocationByBud_Id:getLocationByBud_Id
 };

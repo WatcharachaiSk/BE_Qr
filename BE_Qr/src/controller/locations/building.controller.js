@@ -39,6 +39,27 @@ const getBuilding = async (req, res) => {
   }
 };
 
+const getBuildingByDpm_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Building = await Buildings.findAll({
+      where: { facultyFId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+      ],
+      order: [["b_id", "ASC"]],
+    });
+    return res.send(Building);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
 const updateBuilding = async (req, res) => {
   try {
     const b_id = req.params.id;
@@ -83,4 +104,5 @@ module.exports = {
   getBuilding: getBuilding,
   updateBuilding: updateBuilding,
   deleteBuilding: deleteBuilding,
+  getBuildingByDpm_Id: getBuildingByDpm_Id,
 };

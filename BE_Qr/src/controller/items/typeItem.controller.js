@@ -79,7 +79,7 @@ const getTypeItem = async (req, res) => {
       order: [["type_id", "ASC"]],
     });
 
-    return res.send({ status: 1, data: TypeItem });
+    return res.send(TypeItem);
   } catch (err) {
     return res.status(500).send(err.message);
   }
