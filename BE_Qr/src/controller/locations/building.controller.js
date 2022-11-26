@@ -43,7 +43,7 @@ const getBuildingByDpm_Id = async (req, res) => {
   const { id } = req.params;
   try {
     const Building = await Buildings.findAll({
-      where: { facultyFId: id },
+      where: { departmentDId: id },
       include: [
         {
           model: Facultys,

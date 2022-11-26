@@ -44,7 +44,7 @@ const getProfile = async (req, res) => {
     const Profile = await Profiles.findAll({
       order: [["pf_id", "ASC"]],
     });
-    return res.send({ status: 1, data: Profile });
+    return res.send(Profile);
   } catch (err) {
     return res.status(500).send(err.message);
   }

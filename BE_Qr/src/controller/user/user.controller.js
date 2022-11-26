@@ -1,6 +1,11 @@
 require("dotenv").config();
 
-const { Users } = require("../../model/index.model");
+const {
+  Users,
+  Profiles,
+  Facultys,
+  Departments,
+} = require("../../model/index.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -88,27 +93,48 @@ const loginUser = async (req, res) => {
         { user_id: user.user_id, username, admin: user.admin },
         process.env.TOKEN_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: "5h",
         }
       );
 
       const userSend = await Users.findOne({
         where: { user_id: user.user_id },
-        attributes: [
-          "username",
-          "user_status",
-          "admin",
-          "createdAt",
-          "updatedAt",
-          "authentication_token",
-          "web_token",
+        include: [
+          {
+            model: Profiles,
+          },
         ],
         order: [["user_id", "ASC"]],
       });
-      // save user token
-      userSend.web_token = token;
+  
       // user
-      return res.status(200).json(userSend);
+      const profiles = await Profiles.findOne({
+        where: { userUserId: userSend.user_id },
+        include: [
+          {
+            model: Users,
+            attributes: [
+              "username",
+              "user_status",
+              "admin",
+              "createdAt",
+              "updatedAt",
+              "authentication_token",
+              "web_token",
+            ],
+          },
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+        ],
+        order: [["pf_id", "ASC"]],
+      });
+    // save user token
+    profiles.user.web_token = token;
+      return res.status(200).json(profiles);
     }
     return res.status(400).send("Invalid Credentials");
   } catch (err) {
@@ -118,18 +144,45 @@ const loginUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await Users.findAll({
-      attributes: [
-        "user_id",
-        "username",
-        "user_status",
-        "admin",
-        "createdAt",
-        "updatedAt",
+    // const users = await Users.findAll({
+    //   attributes: [
+    //     "user_id",
+    //     "username",
+    //     "user_status",
+    //     "admin",
+    //     "createdAt",
+    //     "updatedAt",
+    //   ],
+    //   // include: [
+    //   //   {
+    //   //     model: Profiles,
+    //   //   },
+    //   // ],
+    //   order: [["user_id", "ASC"]],
+    // });
+    const profiles = await Profiles.findAll({
+      include: [
+        {
+          model: Users,
+          attributes: [
+            "username",
+            "user_status",
+            "admin",
+            "createdAt",
+            "updatedAt",
+          ],
+        },
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
       ],
-      order: [["user_id", "ASC"]],
+      order: [["pf_id", "ASC"]],
     });
-    return res.send({ status: 1, data: users });
+
+    return res.send(profiles);
   } catch (err) {
     return res.status(500).send(err.message);
   }

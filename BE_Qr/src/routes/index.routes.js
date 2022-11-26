@@ -55,6 +55,7 @@ router.post("/deleteFaculty/:id", auth, FacultyController.deleteFaculty);
 router.post("/createDepartment", auth, DepartmentController.createDepartment);
 router.get("/getDepartment", auth, DepartmentController.getDepartment);
 router.get("/getDepartmentByFtyId/:id", auth, DepartmentController.getDepartmentByFty_Id);
+router.get("/getDepartmentById/:id", auth, DepartmentController.getDepartmentBy_Id);
 router.put(
   "/updateDepartment/:id",
   auth,

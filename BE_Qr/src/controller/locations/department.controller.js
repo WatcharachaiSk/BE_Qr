@@ -34,6 +34,23 @@ const getDepartment = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
+const getDepartmentBy_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Department = await Departments.findOne({
+      where: { d_id: id },
+      include: [
+        {
+          model: Facultys,
+        },
+      ],
+      order: [["d_id", "ASC"]],
+    });
+    return res.send(Department);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
 
 const getDepartmentByFty_Id = async (req, res) => {
   const { id } = req.params;
@@ -97,4 +114,5 @@ module.exports = {
   updateDepartment: updateDepartment,
   deleteDepartment: deleteDepartment,
   getDepartmentByFty_Id: getDepartmentByFty_Id,
+  getDepartmentBy_Id: getDepartmentBy_Id,
 };
