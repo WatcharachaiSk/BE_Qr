@@ -12,7 +12,18 @@ const jwt = require("jsonwebtoken");
 //Register
 const createUser = async (req, res) => {
   try {
-    const { username, password, admin } = req.body;
+    const {
+      username,
+      password,
+      admin,
+      firstname,
+      lastname,
+      nickname,
+      telephone,
+      email,
+      facultyFId,
+      departmentDId,
+    } = req.body;
 
     // check if user already exist
     // Validate if user exist in our database
@@ -60,13 +71,22 @@ const createUser = async (req, res) => {
         "createdAt",
         "updatedAt",
         "authentication_token",
-        "web_token",
+       // "web_token",
       ],
       order: [["user_id", "ASC"]],
     });
-
+    const createProfile = await Profiles.create({
+      firstname: firstname,
+      lastname: lastname,
+      nickname: nickname,
+      telephone: telephone,
+      email: email.toLowerCase(),
+      userUserId: userSend.user_id,
+      facultyFId: facultyFId,
+      departmentDId: departmentDId,
+    });
     // user
-    return res.status(200).json(userSend);
+    return res.status(200).json({ userSend, createProfile });
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -106,10 +126,20 @@ const loginUser = async (req, res) => {
         ],
         order: [["user_id", "ASC"]],
       });
-  
+
       // user
       const profiles = await Profiles.findOne({
         where: { userUserId: userSend.user_id },
+        attributes: [
+          "firstname",
+          "lastname",
+          "nickname",
+          "telephone",
+          "email",
+          "createdAt",
+          "facultyFId",
+          "departmentDId",
+        ],
         include: [
           {
             model: Users,
@@ -132,8 +162,8 @@ const loginUser = async (req, res) => {
         ],
         order: [["pf_id", "ASC"]],
       });
-    // save user token
-    profiles.user.web_token = token;
+      // save user token
+      profiles.user.web_token = token;
       return res.status(200).json(profiles);
     }
     return res.status(400).send("Invalid Credentials");

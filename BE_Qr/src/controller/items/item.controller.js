@@ -51,37 +51,76 @@ const createItem = async (req, res) => {
 };
 // GET All
 const getItem = async (req, res) => {
+  console.log(res.isAdmin);
+  const user = await res.locals;
   try {
-    const items = await Items.findAll({
-      include: [
-        {
-          model: Facultys,
-          // attributes: ["f_id", "nameTH", "nameEN"],
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
-      order: [["item_id", "ASC"]],
-    });
+    let items;
+    if (res.isAdmin) {
+      items = await Items.findAll({
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+          {
+            model: Buildings,
+          },
+          {
+            model: Locations,
+          },
+          {
+            model: Categorys,
+          },
+          {
+            model: TypeItems,
+          },
+          {
+            model: Profiles,
+          },
+          {
+            model: UpDateStatuses,
+          },
+        ],
+        order: [["item_id", "ASC"]],
+      });
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
+
+      items = await Items.findAll({
+        where: { departmentDId: userProfiles.departmentDId },
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+          {
+            model: Buildings,
+          },
+          {
+            model: Locations,
+          },
+          {
+            model: Categorys,
+          },
+          {
+            model: TypeItems,
+          },
+          {
+            model: Profiles,
+          },
+          {
+            model: UpDateStatuses,
+          },
+        ],
+        order: [["item_id", "ASC"]],
+      });
+    }
 
     return res.send(items);
   } catch (err) {

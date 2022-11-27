@@ -17,7 +17,8 @@ const GetItem = require("../controller/items/getItem");
 const auth = require("../middleware/auth");
 const checkProfile = require("../controller/user/checkProfile");
 const getIdProfile = require("../components/userIdProfile");
-const verifyIsAdmin = require("../components/verifyIsAdmin");
+const verifyIsAdmin = require("../components/verify/verifyIsAdmin");
+const verifyIsAdminGet = require("../components/verify/verifyIsAdminGet");
 
 // test
 router.post("/welcome", auth, (req, res) => {
@@ -54,8 +55,16 @@ router.post("/deleteFaculty/:id", auth, FacultyController.deleteFaculty);
 //Department
 router.post("/createDepartment", auth, DepartmentController.createDepartment);
 router.get("/getDepartment", auth, DepartmentController.getDepartment);
-router.get("/getDepartmentByFtyId/:id", auth, DepartmentController.getDepartmentByFty_Id);
-router.get("/getDepartmentById/:id", auth, DepartmentController.getDepartmentBy_Id);
+router.get(
+  "/getDepartmentByFtyId/:id",
+  auth,
+  DepartmentController.getDepartmentByFty_Id
+);
+router.get(
+  "/getDepartmentById/:id",
+  auth,
+  DepartmentController.getDepartmentBy_Id
+);
 router.put(
   "/updateDepartment/:id",
   auth,
@@ -66,14 +75,22 @@ router.post("/deleteDepartment", auth, DepartmentController.deleteDepartment);
 //Building
 router.post("/createBuilding", auth, BuildingController.createBuilding);
 router.get("/getBuilding", auth, BuildingController.getBuilding);
-router.get("/getBuildingByDpmId/:id", auth, BuildingController.getBuildingByDpm_Id);
+router.get(
+  "/getBuildingByDpmId/:id",
+  auth,
+  BuildingController.getBuildingByDpm_Id
+);
 router.put("/updateBuilding/:id", auth, BuildingController.updateBuilding);
 router.post("/deleteBuilding", auth, BuildingController.deleteBuilding);
 
 //Location
 router.post("/createLocation", auth, LocationController.createLocation);
 router.get("/getLocation", auth, LocationController.getLocation);
-router.get("/getLocationByBudId/:id", auth, LocationController.getLocationByBud_Id);
+router.get(
+  "/getLocationByBudId/:id",
+  auth,
+  LocationController.getLocationByBud_Id
+);
 router.put("/updateLocation/:id", auth, LocationController.updateLocation);
 router.post("/deleteLocation", auth, LocationController.deleteLocation);
 
@@ -96,7 +113,7 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 
 // Item
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
-router.get("/getItem", auth, ItemController.getItem);
+router.get("/getItem", auth, verifyIsAdminGet, ItemController.getItem);
 router.get("/getItem/:id", auth, GetItem.getItemById);
 router.get("/getItemCategory/:id", auth, GetItem.getItemByCategoryID);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
