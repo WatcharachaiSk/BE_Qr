@@ -12,6 +12,8 @@ const {
   UpDateStatuses,
 } = require("../../model/index.model");
 
+// async ==> await
+
 // CREATE
 const createItem = async (req, res) => {
   try {
@@ -51,9 +53,10 @@ const createItem = async (req, res) => {
 };
 // GET All
 const getItem = async (req, res) => {
-  console.log(res.isAdmin);
-  const user = await res.locals;
+  // console.log(res.isAdmin);
+
   try {
+    const user = await res.locals;
     let items;
     if (res.isAdmin) {
       items = await Items.findAll({
@@ -134,12 +137,12 @@ const updateItem = async (req, res) => {
     const {
       name,
       code,
-      status_item,
+      // status_item,
       facultyFId,
       departmentDId,
       buildingBId,
       categoryCateId,
-      locationLId,
+      // locationLId,
       typeItemTypeId,
     } = req.body;
 
@@ -147,12 +150,12 @@ const updateItem = async (req, res) => {
       {
         name: name,
         code: code,
-        status_item: status_item,
+        // status_item: status_item,
         facultyFId: facultyFId,
         departmentDId: departmentDId,
         buildingBId: buildingBId,
         categoryCateId: categoryCateId,
-        locationLId: locationLId,
+        // locationLId: locationLId,
         typeItemTypeId: typeItemTypeId,
       },
       {
@@ -161,7 +164,37 @@ const updateItem = async (req, res) => {
         },
       }
     );
-    return res.send({ updateItem });
+    const Item = await Items.findOne({
+      where: { item_id: item_id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+        {
+          model: Locations,
+        },
+        {
+          model: Categorys,
+        },
+        {
+          model: TypeItems,
+        },
+        {
+          model: Profiles,
+        },
+        {
+          model: UpDateStatuses,
+        },
+      ],
+      order: [["item_id", "ASC"]],
+    });
+    return res.send(Item);
   } catch (err) {
     return res.status(500).send(err.message);
   }

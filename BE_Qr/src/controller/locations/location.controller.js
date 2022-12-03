@@ -74,12 +74,16 @@ const getLocationByBud_Id = async (req, res) => {
 const updateLocation = async (req, res) => {
   try {
     const l_id = req.params.id;
-    const { nameTH, nameEN, buildingBId } = req.body;
+    const { nameTH, nameEN, floor, facultyFId, departmentDId, buildingBId } =
+      req.body;
 
     const updateLocation = await Locations.update(
       {
         nameTH: nameTH,
         nameEN: nameEN,
+        floor: floor,
+        facultyFId: facultyFId,
+        departmentDId: departmentDId,
         buildingBId: buildingBId,
       },
       {
@@ -114,5 +118,5 @@ module.exports = {
   getLocation: getLocation,
   updateLocation: updateLocation,
   deleteLocation: deleteLocation,
-  getLocationByBud_Id:getLocationByBud_Id
+  getLocationByBud_Id: getLocationByBud_Id,
 };

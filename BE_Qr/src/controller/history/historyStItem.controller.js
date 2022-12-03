@@ -22,7 +22,29 @@ const getHistoryStItem = async (req, res) => {
       order: [["hs_id", "ASC"]],
     });
 
-    return res.send({ status: 1, data: HistoryStatusItem });
+    return res.send(HistoryStatusItem);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getHistoryStItemByItemId = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const HistoryStatusItem = await HistoryStatusItems.findAll({
+      where: { itemItemId: id },
+      include: [
+        {
+          model: Items,
+        },
+        {
+          model: Locations,
+        },
+      ],
+      order: [["hs_id", "DESC"]],
+    });
+
+    return res.send(HistoryStatusItem);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -88,6 +110,7 @@ const updateStetus = async (req, res, next) => {
       {
         status_item: status,
         update_Stetus_Id: updateStetus.updateSt_id,
+        locationLId: !locationLId ? Item.locationLId : locationLId,
       },
       {
         where: {
@@ -109,4 +132,5 @@ const updateStetus = async (req, res, next) => {
 module.exports = {
   getHistoryStItem: getHistoryStItem,
   updateStetus: updateStetus,
+  getHistoryStItemByItemId: getHistoryStItemByItemId,
 };

@@ -6,6 +6,7 @@ const {
   Departments,
   Categorys,
   Profiles,
+  Items,
 } = require("../../model/index.model");
 
 // name	code quantity	unit	price_unit
@@ -50,34 +51,76 @@ const createTypeItem = async (req, res) => {
 // GET ALL
 const getTypeItem = async (req, res) => {
   try {
-    const TypeItem = await TypeItems.findAll({
-      include: [
-        {
-          model: Departments,
-          attributes: ["d_id", "nameTH", "nameEN", "facultyFId"],
-        },
-        {
-          model: Categorys,
-          attributes: ["cate_id", "name"],
-        },
+    const user = await res.locals;
+    let TypeItem;
+    if (res.isAdmin) {
+      TypeItem = await TypeItems.findAll({
+        include: [
+          {
+            model: Departments,
+            attributes: ["d_id", "nameTH", "nameEN", "facultyFId"],
+          },
+          {
+            model: Categorys,
+            attributes: ["cate_id", "name"],
+          },
+          {
+            model: Profiles,
+            attributes: [
+              "pf_id",
+              "firstname",
+              "lastname",
+              "nickname",
+              "telephone",
+              "email",
+              "userUserId",
+              "facultyFId",
+              "departmentDId",
+            ],
+          },
+          {
+            model: Items,
+          },
+        ],
+        order: [["type_id", "ASC"]],
+      });
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
 
-        {
-          model: Profiles,
-          attributes: [
-            "pf_id",
-            "firstname",
-            "lastname",
-            "nickname",
-            "telephone",
-            "email",
-            "userUserId",
-            "facultyFId",
-            "departmentDId",
-          ],
-        },
-      ],
-      order: [["type_id", "ASC"]],
-    });
+      TypeItem = await TypeItems.findAll({
+        where: { departmentDId: userProfiles.departmentDId },
+        include: [
+          {
+            model: Departments,
+            attributes: ["d_id", "nameTH", "nameEN", "facultyFId"],
+          },
+          {
+            model: Categorys,
+            attributes: ["cate_id", "name"],
+          },
+          {
+            model: Profiles,
+            attributes: [
+              "pf_id",
+              "firstname",
+              "lastname",
+              "nickname",
+              "telephone",
+              "email",
+              "userUserId",
+              "facultyFId",
+              "departmentDId",
+            ],
+          },
+          {
+            model: Items,
+          },
+        ],
+        order: [["type_id", "ASC"]],
+      });
+    }
 
     return res.send(TypeItem);
   } catch (err) {

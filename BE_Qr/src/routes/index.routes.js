@@ -12,6 +12,7 @@ const TypeItemController = require("../controller/items/typeItem.controller");
 const ItemController = require("../controller/items/item.controller");
 const HistoryStItemController = require("../controller/history/historyStItem.controller");
 const GetItem = require("../controller/items/getItem");
+const GetByIdType = require("../controller/items/components/getByIdType");
 
 // *  = (req, res, next) =>{ }
 const auth = require("../middleware/auth");
@@ -22,7 +23,7 @@ const verifyIsAdminGet = require("../components/verify/verifyIsAdminGet");
 
 // test
 router.post("/welcome", auth, (req, res) => {
-  console.log(res.locals.user_id, res.locals.amdin);
+  // console.log(res.locals.user_id, res.locals.amdin);
   // console.log(res.locals);
   res
     .status(200)
@@ -107,7 +108,14 @@ router.post(
   getIdProfile,
   TypeItemController.createTypeItem
 );
-router.get("/getTypeItem", auth, TypeItemController.getTypeItem);
+router.get(
+  "/getTypeItem",
+  auth,
+  verifyIsAdminGet,
+  TypeItemController.getTypeItem
+);
+router.get("/getTypeItemByDpmId/:id", auth, GetByIdType.getTypeItemByDpmId);
+
 router.put("/updateTypeItem/:id", auth, TypeItemController.updateTypeItem);
 router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 
@@ -116,6 +124,7 @@ router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.get("/getItem", auth, verifyIsAdminGet, ItemController.getItem);
 router.get("/getItem/:id", auth, GetItem.getItemById);
 router.get("/getItemCategory/:id", auth, GetItem.getItemByCategoryID);
+router.get("/getItemByTypeID/:id", auth, GetItem.getItemByTypeID);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
 router.post("/deleteItem", auth, ItemController.deleteItem);
 
@@ -124,6 +133,11 @@ router.get(
   "/getHistoryStatusItem",
   auth,
   HistoryStItemController.getHistoryStItem
+);
+router.get(
+  "/getHistoryStatusItem/:id",
+  auth,
+  HistoryStItemController.getHistoryStItemByItemId
 );
 router.post(
   "/updateStetus",

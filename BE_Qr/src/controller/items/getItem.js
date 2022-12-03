@@ -90,8 +90,48 @@ const getItemByCategoryID = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
+const getItemByTypeID = async (req, res) => {
+  const { id } = req.params;
+  // console.log("id = " + id);
+  try {
+    const Item = await Items.findAll({
+      where: { typeItemTypeId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+        {
+          model: Locations,
+        },
+        {
+          model: Categorys,
+        },
+        {
+          model: TypeItems,
+        },
+        {
+          model: Profiles,
+        },
+        {
+          model: UpDateStatuses,
+        },
+      ],
+      order: [["item_id", "ASC"]],
+    });
+    return res.send(Item);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
 
 module.exports = {
   getItemById: getItemById,
   getItemByCategoryID: getItemByCategoryID,
+  getItemByTypeID: getItemByTypeID,
 };
