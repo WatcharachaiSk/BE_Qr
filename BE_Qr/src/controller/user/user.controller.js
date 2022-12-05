@@ -71,7 +71,7 @@ const createUser = async (req, res) => {
         "createdAt",
         "updatedAt",
         "authentication_token",
-       // "web_token",
+        // "web_token",
       ],
       order: [["user_id", "ASC"]],
     });

@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { Categorys, Items } = require("../../model/index.model");
+const { Categorys, Items, Profiles } = require("../../model/index.model");
 
 // Create
 const createCategory = async (req, res) => {
@@ -19,15 +19,33 @@ const createCategory = async (req, res) => {
 // Get
 const getCategory = async (req, res) => {
   try {
-    const Category = await Categorys.findAll({
-      include: [
-        {
-          model: Items,
-          attributes: ["item_id", "name"],
-        },
-      ],
-      order: [["cate_id", "ASC"]],
-    });
+    const user = await res.locals;
+    let Category;
+    if (res.isAdmin) {
+      Category = await Categorys.findAll({
+        include: [
+          {
+            model: Items,
+            // attributes: ["item_id", "name"],
+          },
+        ],
+        order: [["cate_id", "ASC"]],
+      });
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
+      Category = await Categorys.findAll({
+        include: [
+          {
+            model: Items,
+            where: { departmentDId: userProfiles.departmentDId },
+            // attributes: ["item_id", "name"],
+          },
+        ],
+        order: [["cate_id", "ASC"]],
+      });
+    }
 
     return res.send(Category);
   } catch (err) {
