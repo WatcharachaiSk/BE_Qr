@@ -85,6 +85,10 @@ Locations.belongsTo(Facultys);
 Locations.belongsTo(Departments);
 Locations.belongsTo(Buildings);
 
+// Categorys
+Departments.hasMany(Categorys);
+Categorys.belongsTo(Departments);
+
 // TypeItems
 Departments.hasMany(TypeItems);
 Categorys.hasMany(TypeItems);

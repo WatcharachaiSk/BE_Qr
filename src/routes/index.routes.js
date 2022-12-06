@@ -97,7 +97,12 @@ router.post("/deleteLocation", auth, LocationController.deleteLocation);
 
 // Category
 router.post("/createCategory", auth, CategoryController.createCategory);
-router.get("/getCategory", auth, verifyIsAdminGet, CategoryController.getCategory);
+router.get(
+  "/getCategory",
+  auth,
+  verifyIsAdminGet,
+  CategoryController.getCategory
+);
 router.put("/updateCategory/:id", auth, CategoryController.updateCategory);
 router.post("/deleteCategory", auth, CategoryController.deleteCategory);
 
@@ -143,6 +148,7 @@ router.post(
   "/updateStetus",
   auth,
   getIdProfile,
+  verifyIsAdminGet,
   HistoryStItemController.updateStetus
 );
 

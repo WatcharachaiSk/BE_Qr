@@ -3,6 +3,8 @@ const {
   UpDateStatuses,
   Items,
   Locations,
+  Users,
+  Profiles,
 } = require("../../model/index.model");
 
 const getHistoryStItem = async (req, res) => {
@@ -55,54 +57,104 @@ const updateStetus = async (req, res, next) => {
      * facultyFId departmentDId buildingBId locationLId categoryCateId typeItemTypeId profilePfId
      */
     const profilePfId = await res.profilePfId;
-    // console.log(profilePfId);
+    const isAdmin = await res.isAdmin;
     const { itemItemId, locationLId, status, note } = req.body;
+
     const Item = await Items.findOne({
       where: { item_id: itemItemId },
     });
 
     // console.log(!locationLId ? Item.locationLId : locationLId);
     // * 	itemItemId	locationLId
-    const historyStIten = await HistoryStatusItems.create({
-      itemItemId: itemItemId,
-      locationLId: !locationLId ? Item.locationLId : locationLId,
-      status: status,
-      note: note,
-      updater_id: profilePfId,
-    });
 
-    const isHave = await UpDateStatuses.findOne({
-      where: { itemItemId: itemItemId },
-    });
     // console.log(isHave.updateSt_id);
+    if (isAdmin) {
+      const historyStIten = await HistoryStatusItems.create({
+        itemItemId: itemItemId,
+        locationLId: !locationLId ? Item.locationLId : locationLId,
+        status: status,
+        note: note,
+        updater_id: profilePfId,
+      });
 
-    if (isHave) {
-      await UpDateStatuses.update(
-        {
+      const isHave = await UpDateStatuses.findOne({
+        where: { itemItemId: itemItemId },
+      });
+      if (isHave) {
+        await UpDateStatuses.update(
+          {
+            itemItemId: itemItemId,
+            locationLId: !locationLId ? Item.locationLId : locationLId,
+            status: status,
+            note: note,
+            updater_id: profilePfId,
+            inspected_at: await historyStIten.createdAt,
+          },
+          {
+            where: {
+              updateSt_id: isHave.updateSt_id,
+            },
+          }
+        );
+      } else {
+        await UpDateStatuses.create({
           itemItemId: itemItemId,
           locationLId: !locationLId ? Item.locationLId : locationLId,
           status: status,
           note: note,
           updater_id: profilePfId,
           inspected_at: await historyStIten.createdAt,
-        },
-        {
-          where: {
-            updateSt_id: isHave.updateSt_id,
-          },
-        }
-      );
+        });
+      }
     } else {
-      await UpDateStatuses.create({
-        itemItemId: itemItemId,
-        locationLId: !locationLId ? Item.locationLId : locationLId,
-        status: status,
-        note: note,
-        updater_id: profilePfId,
-        inspected_at: await historyStIten.createdAt,
+      const user = await Profiles.findOne({
+        where: { pf_id: profilePfId },
       });
+      if (user.departmentDId == Item.departmentDId) {
+        const historyStIten = await HistoryStatusItems.create({
+          itemItemId: itemItemId,
+          locationLId: !locationLId ? Item.locationLId : locationLId,
+          status: status,
+          note: note,
+          updater_id: profilePfId,
+        });
+
+        const isHave = await UpDateStatuses.findOne({
+          where: { itemItemId: itemItemId },
+        });
+        if (isHave) {
+          await UpDateStatuses.update(
+            {
+              itemItemId: itemItemId,
+              locationLId: !locationLId ? Item.locationLId : locationLId,
+              status: status,
+              note: note,
+              updater_id: profilePfId,
+              inspected_at: await historyStIten.createdAt,
+            },
+            {
+              where: {
+                updateSt_id: isHave.updateSt_id,
+              },
+            }
+          );
+        } else {
+          await UpDateStatuses.create({
+            itemItemId: itemItemId,
+            locationLId: !locationLId ? Item.locationLId : locationLId,
+            status: status,
+            note: note,
+            updater_id: profilePfId,
+            inspected_at: await historyStIten.createdAt,
+          });
+        }
+      } else {
+        return res
+          .status(203)
+          .send({ message: "You are not in this department" });
+      }
     }
-    // console.log(updateStetus.createdAt);
+
     const updateStetus = await UpDateStatuses.findOne({
       where: { itemItemId: itemItemId },
     });
