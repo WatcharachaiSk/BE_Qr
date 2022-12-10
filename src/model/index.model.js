@@ -68,6 +68,8 @@ Profiles.belongsTo(Facultys);
 Profiles.belongsTo(Departments);
 
 // Departments
+// มี hasMany เยอะ
+// มี belongsTo 1
 Facultys.hasMany(Departments);
 Departments.belongsTo(Facultys);
 

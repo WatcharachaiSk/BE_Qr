@@ -1,14 +1,20 @@
 require("dotenv").config();
 
-const { Categorys, Items, Profiles } = require("../../model/index.model");
+const {
+  Categorys,
+  Items,
+  Profiles,
+  Departments,
+} = require("../../model/index.model");
 
 // Create
 const createCategory = async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, departmentDId } = req.body;
 
     const createCategory = await Categorys.create({
       name: name,
+      departmentDId: departmentDId,
     });
 
     return res.send({ createCategory });
@@ -28,6 +34,9 @@ const getCategory = async (req, res) => {
             model: Items,
             // attributes: ["item_id", "name"],
           },
+          {
+            model: Departments,
+          },
         ],
         order: [["cate_id", "ASC"]],
       });
@@ -35,12 +44,18 @@ const getCategory = async (req, res) => {
       const userProfiles = await Profiles.findOne({
         where: { userUserId: user.user_id },
       });
+      console.log(userProfiles.departmentDId);
       Category = await Categorys.findAll({
+        where: {
+          departmentDId: userProfiles.departmentDId,
+        },
         include: [
           {
             model: Items,
-            where: { departmentDId: userProfiles.departmentDId },
             // attributes: ["item_id", "name"],
+          },
+          {
+            model: Departments,
           },
         ],
         order: [["cate_id", "ASC"]],
@@ -56,11 +71,12 @@ const getCategory = async (req, res) => {
 const updateCategory = async (req, res) => {
   try {
     const cate_id = req.params.id;
-    const { name } = req.body;
+    const { name, departmentDId } = req.body;
 
     const updateCategory = await Categorys.update(
       {
         name: name,
+        departmentDId: departmentDId,
       },
       {
         where: {

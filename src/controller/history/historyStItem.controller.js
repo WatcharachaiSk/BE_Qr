@@ -151,7 +151,7 @@ const updateStetus = async (req, res, next) => {
       } else {
         return res
           .status(203)
-          .send({ message: "You are not in this department" });
+          .send({ message: "You are not in this departmentx" });
       }
     }
 
