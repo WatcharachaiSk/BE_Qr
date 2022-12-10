@@ -20,6 +20,9 @@ const getHistoryStItem = async (req, res) => {
         {
           model: Locations,
         },
+        {
+          model: Profiles,
+        },
       ],
       order: [["hs_id", "ASC"]],
     });
@@ -33,7 +36,11 @@ const getHistoryStItemByItemId = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const HistoryStatusItem = await HistoryStatusItems.findAll({
+    const isHave = await UpDateStatuses.findOne({
+      where: { itemItemId: id },
+    });
+
+    const historyStatusItem = await HistoryStatusItems.findAll({
       where: { itemItemId: id },
       include: [
         {
@@ -42,11 +49,14 @@ const getHistoryStItemByItemId = async (req, res) => {
         {
           model: Locations,
         },
+        {
+          model: Profiles,
+        },
       ],
       order: [["hs_id", "DESC"]],
     });
 
-    return res.send(HistoryStatusItem);
+    return res.send(historyStatusItem);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -75,6 +85,7 @@ const updateStetus = async (req, res, next) => {
         status: status,
         note: note,
         updater_id: profilePfId,
+        profilePfId: profilePfId,
       });
 
       const isHave = await UpDateStatuses.findOne({
@@ -117,6 +128,7 @@ const updateStetus = async (req, res, next) => {
           status: status,
           note: note,
           updater_id: profilePfId,
+          profilePfId: profilePfId,
         });
 
         const isHave = await UpDateStatuses.findOne({

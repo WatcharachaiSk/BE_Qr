@@ -118,6 +118,8 @@ Items.belongsTo(Locations);
 // History Item UpdateItem
 Items.hasMany(HistoryStatusItems);
 Locations.hasMany(HistoryStatusItems);
+Profiles.hasMany(HistoryStatusItems);
+HistoryStatusItems.belongsTo(Profiles);
 HistoryStatusItems.belongsTo(Items);
 HistoryStatusItems.belongsTo(Locations);
 // Update
