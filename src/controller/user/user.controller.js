@@ -220,10 +220,21 @@ const getUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
-    const { username, password, user_status, admin } = req.body;
+    const {
+      username,
+      password,
+      admin,
+      user_status,
+      firstname,
+      lastname,
+      nickname,
+      telephone,
+      email,
+      facultyFId,
+      departmentDId,
+    } = req.body;
 
     encryptedPassword = await bcrypt.hash(password, 10);
-
     const updateUser = await Users.update(
       {
         username: username,
@@ -234,6 +245,22 @@ const updateUser = async (req, res) => {
       {
         where: {
           user_id: userId,
+        },
+      }
+    );
+    const updateProfile = await Profiles.update(
+      {
+        firstname: firstname,
+        lastname: lastname,
+        nickname: nickname,
+        telephone: telephone,
+        email: email.toLowerCase(),
+        facultyFId: facultyFId,
+        departmentDId: departmentDId,
+      },
+      {
+        where: {
+          userUserId: userId,
         },
       }
     );
