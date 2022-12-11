@@ -40,9 +40,14 @@ const createProfile = async (req, res) => {
 };
 // GET
 const getProfile = async (req, res) => {
+  // console.log(res.locals);
+  const userUserId = res?.locals?.user_id;
   try {
-    const Profile = await Profiles.findAll({
-      order: [["pf_id", "ASC"]],
+    const Profile = await Profiles.findOne({
+      where: {
+        userUserId: userUserId,
+      },
+      order: [["userUserId", "ASC"]],
     });
     return res.send(Profile);
   } catch (err) {

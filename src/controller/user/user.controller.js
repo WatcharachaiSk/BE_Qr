@@ -27,11 +27,10 @@ const createUser = async (req, res) => {
 
     // check if user already exist
     // Validate if user exist in our database
-    // const oldUser = await Users.findOne({ username });
-    // console.log("oldUser ", oldUser);
-    // if (oldUser) {
-    //   return res.status(409).send("User Already Exist. Please Login");
-    // }
+    const oldUser = await Users.findOne({ where: { username: username } });
+    if (oldUser) {
+      return res.status(409).send("User Already Exist. Please Login");
+    }
 
     //Encrypt user password
     encryptedPassword = await bcrypt.hash(password, 10);
@@ -100,7 +99,7 @@ const loginUser = async (req, res) => {
     //console.log("username = " + username + " password " + password);
     // // Validate user input
     if (!(username && password)) {
-      res.status(400).send("All input is required");
+      return res.status(400).send("All input is required");
     }
     // Validate if user exist in our database
     const user = await Users.findOne({
@@ -168,7 +167,7 @@ const loginUser = async (req, res) => {
     }
     return res.status(400).send("Invalid Credentials");
   } catch (err) {
-    console.log(err);
+    return res.status(500).send(err);
   }
 };
 

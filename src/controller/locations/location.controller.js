@@ -41,7 +41,105 @@ const getLocation = async (req, res) => {
 
       order: [["l_id", "ASC"]],
     });
-    return res.send(Location);
+
+    if (Location) return res.send(Location);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getLocationBy_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Location = await Locations.findOne({
+      where: { l_id: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+      ],
+
+      order: [["l_id", "ASC"]],
+    });
+
+    if (Location) return res.send(Location);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getLocationByFty_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Location = await Locations.findAll({
+      where: { facultyFId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+      ],
+
+      order: [["l_id", "ASC"]],
+    });
+    if (Location) return res.send(Location);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getLocationByDpm_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Location = await Locations.findAll({
+      where: { departmentDId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+        {
+          model: Buildings,
+        },
+      ],
+
+      order: [["l_id", "ASC"]],
+    });
+    if (Location) return res.send(Location);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -65,7 +163,13 @@ const getLocationByBud_Id = async (req, res) => {
 
       order: [["l_id", "ASC"]],
     });
-    return res.send(Location);
+    if (Location) return res.send(Location);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -116,7 +220,10 @@ const deleteLocation = async (req, res) => {
 module.exports = {
   createLocation: createLocation,
   getLocation: getLocation,
+  getLocationBy_Id: getLocationBy_Id,
   updateLocation: updateLocation,
   deleteLocation: deleteLocation,
+  getLocationByFty_Id: getLocationByFty_Id,
+  getLocationByDpm_Id: getLocationByDpm_Id,
   getLocationByBud_Id: getLocationByBud_Id,
 };

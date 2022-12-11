@@ -28,7 +28,19 @@ const getFaculty = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
-
+//
+const getFacultyById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const Faculty = await Facultys.findOne({
+      where: { f_id: id },
+    });
+    return res.send(Faculty);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+//
 const updateFaculty = async (req, res) => {
   try {
     const f_id = req.params.f_id;
@@ -69,6 +81,7 @@ const deleteFaculty = async (req, res) => {
 module.exports = {
   createFaculty: createFaculty,
   getFaculty: getFaculty,
+  getFacultyById: getFacultyById,
   updateFaculty: updateFaculty,
   deleteFaculty: deleteFaculty,
 };

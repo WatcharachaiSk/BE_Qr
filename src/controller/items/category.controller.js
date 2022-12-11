@@ -24,11 +24,46 @@ const createCategory = async (req, res) => {
 };
 // Get
 const getCategory = async (req, res) => {
+  const { id } = req.params;
   try {
     const user = await res.locals;
     let Category;
     if (res.isAdmin) {
+      if (id) {
+        Category = await Categorys.findOne({
+          where: { cate_id: id },
+          include: [
+            {
+              model: Items,
+            },
+            {
+              model: Departments,
+            },
+          ],
+          order: [["cate_id", "ASC"]],
+        });
+      } else {
+        Category = await Categorys.findAll({
+          include: [
+            {
+              model: Items,
+              // attributes: ["item_id", "name"],
+            },
+            {
+              model: Departments,
+            },
+          ],
+          order: [["cate_id", "ASC"]],
+        });
+      }
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
       Category = await Categorys.findAll({
+        where: {
+          departmentDId: userProfiles.departmentDId,
+        },
         include: [
           {
             model: Items,
@@ -40,11 +75,35 @@ const getCategory = async (req, res) => {
         ],
         order: [["cate_id", "ASC"]],
       });
+    }
+
+    return res.send(Category);
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getCategoryByDpm_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await res.locals;
+    let Category;
+    if (res.isAdmin) {
+      Category = await Categorys.findAll({
+        where: { departmentDId: id },
+        include: [
+          {
+            model: Items,
+          },
+          {
+            model: Departments,
+          },
+        ],
+        order: [["cate_id", "ASC"]],
+      });
     } else {
       const userProfiles = await Profiles.findOne({
         where: { userUserId: user.user_id },
       });
-      console.log(userProfiles.departmentDId);
       Category = await Categorys.findAll({
         where: {
           departmentDId: userProfiles.departmentDId,
@@ -110,4 +169,5 @@ module.exports = {
   getCategory: getCategory,
   updateCategory: updateCategory,
   deleteCategory: deleteCategory,
+  getCategoryByDpm_Id: getCategoryByDpm_Id,
 };

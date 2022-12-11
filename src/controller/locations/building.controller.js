@@ -33,7 +33,66 @@ const getBuilding = async (req, res) => {
       ],
       order: [["b_id", "ASC"]],
     });
-    return res.send(Building);
+    if (Building) return res.send(Building);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+const getBuildingBy_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Building = await Buildings.findOne({
+      where: { b_id: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+      ],
+      order: [["b_id", "ASC"]],
+    });
+    if (Building) return res.send(Building);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
+const getBuildingByFty_Id = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const Building = await Buildings.findAll({
+      where: { facultyFId: id },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+      ],
+      order: [["b_id", "ASC"]],
+    });
+    if (Building) return res.send(Building);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -54,7 +113,13 @@ const getBuildingByDpm_Id = async (req, res) => {
       ],
       order: [["b_id", "ASC"]],
     });
-    return res.send(Building);
+    if (Building) return res.send(Building);
+    else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -102,7 +167,9 @@ const deleteBuilding = async (req, res) => {
 module.exports = {
   createBuilding: createBuilding,
   getBuilding: getBuilding,
+  getBuildingBy_Id: getBuildingBy_Id,
   updateBuilding: updateBuilding,
   deleteBuilding: deleteBuilding,
   getBuildingByDpm_Id: getBuildingByDpm_Id,
+  getBuildingByFty_Id: getBuildingByFty_Id,
 };

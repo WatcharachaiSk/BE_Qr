@@ -34,7 +34,12 @@ router.post("/welcome", auth, (req, res) => {
 router.post("/createUser", UserController.createUser);
 router.post("/loginUser", UserController.loginUser);
 router.get("/getUsers", auth, verifyIsAdmin, UserController.getUsers);
-router.put("/updateUser/:userId", auth, UserController.updateUser);
+router.put(
+  "/updateUser/:userId",
+  auth,
+  verifyIsAdmin,
+  UserController.updateUser
+);
 
 // Profile
 router.post(
@@ -50,6 +55,7 @@ router.post("/deleteProfile", auth, ProfileController.deleteProfile);
 //Faculty
 router.post("/createFaculty", auth, FacultyController.createFaculty);
 router.get("/getFaculty", auth, FacultyController.getFaculty);
+router.get("/getFaculty/:id", auth, FacultyController.getFacultyById);
 router.put("/updateFaculty/:f_id", auth, FacultyController.updateFaculty);
 router.post("/deleteFaculty/:id", auth, FacultyController.deleteFaculty);
 
@@ -61,11 +67,7 @@ router.get(
   auth,
   DepartmentController.getDepartmentByFty_Id
 );
-router.get(
-  "/getDepartmentById/:id",
-  auth,
-  DepartmentController.getDepartmentBy_Id
-);
+router.get("/getDepartment/:id", auth, DepartmentController.getDepartmentBy_Id);
 router.put(
   "/updateDepartment/:id",
   auth,
@@ -76,10 +78,16 @@ router.post("/deleteDepartment", auth, DepartmentController.deleteDepartment);
 //Building
 router.post("/createBuilding", auth, BuildingController.createBuilding);
 router.get("/getBuilding", auth, BuildingController.getBuilding);
+router.get("/getBuilding/:id", auth, BuildingController.getBuildingBy_Id);
 router.get(
   "/getBuildingByDpmId/:id",
   auth,
   BuildingController.getBuildingByDpm_Id
+);
+router.get(
+  "/getBuildingByFtyId/:id",
+  auth,
+  BuildingController.getBuildingByFty_Id
 );
 router.put("/updateBuilding/:id", auth, BuildingController.updateBuilding);
 router.post("/deleteBuilding", auth, BuildingController.deleteBuilding);
@@ -87,8 +95,19 @@ router.post("/deleteBuilding", auth, BuildingController.deleteBuilding);
 //Location
 router.post("/createLocation", auth, LocationController.createLocation);
 router.get("/getLocation", auth, LocationController.getLocation);
+router.get("/getLocation/:id", auth, LocationController.getLocationBy_Id);
 router.get(
-  "/getLocationByBudId/:id",
+  "/getLocationByFty_Id/:id",
+  auth,
+  LocationController.getLocationByFty_Id
+);
+router.get(
+  "/getLocationByDpm_Id/:id",
+  auth,
+  LocationController.getLocationByDpm_Id
+);
+router.get(
+  "/getLocationByBud_Id/:id",
   auth,
   LocationController.getLocationByBud_Id
 );
@@ -102,6 +121,18 @@ router.get(
   auth,
   verifyIsAdminGet,
   CategoryController.getCategory
+);
+router.get(
+  "/getCategory/:id",
+  auth,
+  verifyIsAdminGet,
+  CategoryController.getCategory
+);
+router.get(
+  "/getCategoryByDpm_Id/:id",
+  auth,
+  verifyIsAdminGet,
+  CategoryController.getCategoryByDpm_Id
 );
 router.put("/updateCategory/:id", auth, CategoryController.updateCategory);
 router.post("/deleteCategory", auth, CategoryController.deleteCategory);
@@ -119,6 +150,8 @@ router.get(
   verifyIsAdminGet,
   TypeItemController.getTypeItem
 );
+router.get("/getTypeItemByCate_Id/:id", auth, GetByIdType.getTypeItemByCate_Id);
+
 router.get("/getTypeItemByDpmId/:id", auth, GetByIdType.getTypeItemByDpmId);
 
 router.put("/updateTypeItem/:id", auth, TypeItemController.updateTypeItem);
@@ -127,7 +160,12 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 // Item
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.get("/getItem", auth, verifyIsAdminGet, ItemController.getItem);
-router.get("/getItem/:id", auth, GetItem.getItemById);
+router.get("/getItem/:id", GetItem.getItemById);
+router.get("/getItemByFty_Id/:id", auth, GetItem.getItemByFty_Id);
+router.get("/getItemByDpm_Id/:id", auth, GetItem.getItemByDpm_Id);
+router.get("/getItemByBud_Id/:id", auth, GetItem.getItemByBud_Id);
+router.get("/getItemByLocat_Id/:id", auth, GetItem.getItemByLocat_Id);
+
 router.get("/getItemCategory/:id", auth, GetItem.getItemByCategoryID);
 router.get("/getItemByTypeID/:id", auth, GetItem.getItemByTypeID);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
