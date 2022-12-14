@@ -65,7 +65,7 @@ const updateFaculty = async (req, res) => {
 
 const deleteFaculty = async (req, res) => {
   try {
-    const f_id = req.params.id;
+    const f_id = req.body.id;
 
     await Facultys.destroy({
       where: {

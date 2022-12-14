@@ -17,6 +17,12 @@ module.exports = (sequelize, Sequelize) => {
       status_item: {
         type: Sequelize.BOOLEAN(1),
       },
+      price: {
+        type: Sequelize.INTEGER(10),
+      },
+      description: {
+        type: Sequelize.STRING,
+      },
       update_Stetus_Id: {
         type: Sequelize.INTEGER,
       },
