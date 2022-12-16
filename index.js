@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require("path");
+
+//use express static folder
+app.use('/api', express.static(path.join(__dirname, '/src/public')))
 
 app.use(cors());
 app.use(express.json({ extended: false }));

@@ -26,6 +26,9 @@ module.exports = (sequelize, Sequelize) => {
       web_token: {
         type: Sequelize.STRING,
       },
+      name_image: {
+        type: Sequelize.STRING,
+      },
     },
     {
       createdAt: true,

@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 // * controller
 const UserController = require("../controller/user/user.controller");
 const ProfileController = require("../controller/user/profile.controller");
@@ -13,7 +14,6 @@ const ItemController = require("../controller/items/item.controller");
 const HistoryStItemController = require("../controller/history/historyStItem.controller");
 const GetItem = require("../controller/items/getItem");
 const GetByIdType = require("../controller/items/components/getByIdType");
-
 // *  = (req, res, next) =>{ }
 const auth = require("../middleware/auth");
 const checkProfile = require("../controller/user/checkProfile");
@@ -21,13 +21,26 @@ const getIdProfile = require("../components/userIdProfile");
 const verifyIsAdmin = require("../components/verify/verifyIsAdmin");
 const verifyIsAdminGet = require("../components/verify/verifyIsAdminGet");
 
+const uploadController = require("../controller/multer/multer");
+const deleteImage = require("../controller/multer/deleteImage");
+
+router.post(
+  "/multiple_upload",
+  uploadController.uploadImages,
+  uploadController.resizeImagesItem,
+  uploadController.getResult,
+
+  (req, res) => {
+    console.log(req.body.images);
+    return res.send(req.body.images);
+  }
+);
+
+router.post("/deleteImage", deleteImage.deleteImage);
+
 // test
-router.post("/welcome", auth, (req, res) => {
-  // console.log(res.locals.user_id, res.locals.amdin);
-  // console.log(res.locals);
-  res
-    .status(200)
-    .send("Welcome 🙌 " + res.locals.user_id + " " + res.locals.amdin);
+router.get("/checkToken", auth, (req, res) => {
+  res.status(200).send("Welcome");
 });
 
 //User
