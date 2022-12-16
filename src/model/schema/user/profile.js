@@ -23,6 +23,9 @@ module.exports = (sequelize, Sequelize) => {
       email: {
         type: Sequelize.STRING(50),
       },
+      name_image: {
+        type: Sequelize.STRING,
+      },
     },
     {
       createdAt: true,

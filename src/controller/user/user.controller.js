@@ -24,7 +24,8 @@ const createUser = async (req, res) => {
       facultyFId,
       departmentDId,
     } = req.body;
-
+    console.log(req.body.images);
+    const name_image = req?.body?.images;
     // check if user already exist
     // Validate if user exist in our database
     const oldUser = await Users.findOne({ where: { username: username } });
@@ -80,6 +81,7 @@ const createUser = async (req, res) => {
       nickname: nickname,
       telephone: telephone,
       email: email.toLowerCase(),
+      name_image: name_image ? name_image[0] : null,
       userUserId: userSend.user_id,
       facultyFId: facultyFId,
       departmentDId: departmentDId,
@@ -135,6 +137,7 @@ const loginUser = async (req, res) => {
           "nickname",
           "telephone",
           "email",
+          "name_image",
           "createdAt",
           "facultyFId",
           "departmentDId",

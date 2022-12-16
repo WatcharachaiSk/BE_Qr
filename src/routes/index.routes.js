@@ -45,6 +45,15 @@ router.get("/checkToken", auth, (req, res) => {
 
 //User
 router.post("/createUser", UserController.createUser);
+// 
+router.post(
+  "/createUserPhoto",
+  uploadController.uploadImages,
+  uploadController.resizeImagesProfile,
+  uploadController.getResult,
+  UserController.createUser
+);
+// 
 router.post("/loginUser", UserController.loginUser);
 router.get("/getUsers", auth, verifyIsAdmin, UserController.getUsers);
 router.put(
