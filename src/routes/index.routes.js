@@ -36,7 +36,8 @@ router.post(
   }
 );
 
-router.post("/deleteImage", deleteImage.deleteImage);
+router.post("/deleteImageItem", deleteImage.deleteImageItem);
+router.post("/deleteImageProfile", deleteImage.deleteImageProfile);
 
 // test
 router.get("/checkToken", auth, (req, res) => {
@@ -45,7 +46,7 @@ router.get("/checkToken", auth, (req, res) => {
 
 //User
 router.post("/createUser", UserController.createUser);
-// 
+//
 router.post(
   "/createUserPhoto",
   uploadController.uploadImages,
@@ -53,13 +54,23 @@ router.post(
   uploadController.getResult,
   UserController.createUser
 );
-// 
+//
 router.post("/loginUser", UserController.loginUser);
 router.get("/getUsers", auth, verifyIsAdmin, UserController.getUsers);
 router.put(
   "/updateUser/:userId",
   auth,
   verifyIsAdmin,
+  UserController.updateUser
+);
+//
+router.put(
+  "/updateUserPhoto/:userId",
+  auth,
+  verifyIsAdmin,
+  uploadController.uploadImages,
+  uploadController.resizeImagesProfile,
+  uploadController.getResult,
   UserController.updateUser
 );
 

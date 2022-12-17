@@ -1,4 +1,6 @@
 require("dotenv").config();
+const path = require("path");
+const fs = require("fs");
 
 const {
   Users,
@@ -221,6 +223,7 @@ const getUsers = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  const name_image = req?.body?.images;
   try {
     const userId = req.params.userId;
     const {
@@ -235,22 +238,46 @@ const updateUser = async (req, res) => {
       email,
       facultyFId,
       departmentDId,
+      //
+      nameImage_delete,
     } = req.body;
-
-    encryptedPassword = await bcrypt.hash(password, 10);
-    const updateUser = await Users.update(
-      {
-        username: username,
-        password: encryptedPassword,
-        user_status: user_status,
-        admin: admin,
-      },
-      {
-        where: {
-          user_id: userId,
+    //
+    // console.log("nameImage_delete = " + nameImage_delete);
+    // console.log("name_image = " + name_image);
+    // console.log("password = " + password);
+    //
+    if (password) {
+      encryptedPassword = await bcrypt.hash(password, 10);
+      const updateUser = await Users.update(
+        {
+          username: username,
+          password: encryptedPassword,
+          user_status: user_status,
+          admin: admin,
         },
-      }
-    );
+        {
+          where: {
+            user_id: userId,
+          },
+        }
+      );
+    } else {
+      const updateUser = await Users.update(
+        {
+          username: username,
+          user_status: user_status,
+          admin: admin,
+        },
+        {
+          where: {
+            user_id: userId,
+          },
+        }
+      );
+    }
+
+    //  name_image: name_image ? name_image[0] : null,
+
     const updateProfile = await Profiles.update(
       {
         firstname: firstname,
@@ -267,6 +294,30 @@ const updateUser = async (req, res) => {
         },
       }
     );
+
+    if (nameImage_delete) {
+      let imagePath = path.resolve(
+        "src/public/images/profiles/" + nameImage_delete
+      );
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+        //console.log("delete", imagePath);
+      }
+    }
+
+    if (name_image) {
+      await Profiles.update(
+        {
+          name_image: name_image[0],
+        },
+        {
+          where: {
+            userUserId: userId,
+          },
+        }
+      );
+    }
+
     return res.send({ status: 1, msg: "updated success" });
   } catch (err) {
     return res.status(500).send(err.message);
