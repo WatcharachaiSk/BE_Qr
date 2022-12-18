@@ -26,7 +26,7 @@ const createUser = async (req, res) => {
       facultyFId,
       departmentDId,
     } = req.body;
-    console.log(req.body.images);
+    // console.log(req.body.images);
     const name_image = req?.body?.images;
     // check if user already exist
     // Validate if user exist in our database

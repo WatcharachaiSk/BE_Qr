@@ -1,4 +1,6 @@
 // require("dotenv").config();
+const path = require("path");
+const fs = require("fs");
 
 const {
   Items,
@@ -17,6 +19,7 @@ const {
 // CREATE
 const createItem = async (req, res) => {
   try {
+    const name_image_item = req?.body?.images;
     /* name code status_item
      * facultyFId departmentDId buildingBId locationLId categoryCateId typeItemTypeId profilePfId
      */
@@ -41,6 +44,7 @@ const createItem = async (req, res) => {
       status_item: status_item,
       price: price,
       description: description,
+      name_image_item: name_image_item ? name_image_item[0] : null,
       facultyFId: facultyFId,
       departmentDId: departmentDId,
       buildingBId: buildingBId,
@@ -136,25 +140,35 @@ const getItem = async (req, res) => {
 };
 // UPDATE
 const updateItem = async (req, res) => {
+  const name_image = req?.body?.images;
   try {
     const item_id = req.params.id;
     const {
       name,
       code,
       // status_item,
+      price,
+      description,
       facultyFId,
       departmentDId,
       buildingBId,
       categoryCateId,
       // locationLId,
       typeItemTypeId,
+      //
+      nameImage_delete,
     } = req.body;
+
+    // console.log("nameImage_delete = " + nameImage_delete);
+    // console.log("name_image = " + name_image);
 
     const updateItem = await Items.update(
       {
         name: name,
         code: code,
         // status_item: status_item,
+        price: price,
+        description: description,
         facultyFId: facultyFId,
         departmentDId: departmentDId,
         buildingBId: buildingBId,
@@ -168,6 +182,29 @@ const updateItem = async (req, res) => {
         },
       }
     );
+    //
+    if (nameImage_delete) {
+      let imagePath = path.resolve(
+        "src/public/images/items/" + nameImage_delete
+      );
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+        //console.log("delete", imagePath);
+      }
+    }
+    if (name_image) {
+      await Items.update(
+        {
+          name_image_item: name_image[0],
+        },
+        {
+          where: {
+            item_id: item_id,
+          },
+        }
+      );
+    }
+
     const Item = await Items.findOne({
       where: { item_id: item_id },
       include: [

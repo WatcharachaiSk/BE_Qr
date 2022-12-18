@@ -192,6 +192,15 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 
 // Item
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
+router.post(
+  "/createItemPhoto",
+  auth,
+  getIdProfile,
+  uploadController.uploadImages,
+  uploadController.resizeImagesItem,
+  uploadController.getResult,
+  ItemController.createItem
+);
 router.get("/getItem", auth, verifyIsAdminGet, ItemController.getItem);
 router.get("/getItem/:id", GetItem.getItemById);
 router.get("/getItemByFty_Id/:id", auth, GetItem.getItemByFty_Id);
@@ -202,6 +211,14 @@ router.get("/getItemByLocat_Id/:id", auth, GetItem.getItemByLocat_Id);
 router.get("/getItemCategory/:id", auth, GetItem.getItemByCategoryID);
 router.get("/getItemByTypeID/:id", auth, GetItem.getItemByTypeID);
 router.put("/updateItem/:id", auth, ItemController.updateItem);
+router.put(
+  "/updateItemPhoto/:id",
+  auth,
+  uploadController.uploadImages,
+  uploadController.resizeImagesItem,
+  uploadController.getResult,
+  ItemController.updateItem
+);
 router.post("/deleteItem", auth, ItemController.deleteItem);
 
 // HistoryStItem

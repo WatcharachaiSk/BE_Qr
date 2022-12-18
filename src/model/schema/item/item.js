@@ -23,6 +23,9 @@ module.exports = (sequelize, Sequelize) => {
       description: {
         type: Sequelize.STRING,
       },
+      name_image_item: {
+        type: Sequelize.STRING,
+      },
       update_Stetus_Id: {
         type: Sequelize.INTEGER,
       },
