@@ -7,6 +7,9 @@ const {
   Profiles,
 } = require("../../model/index.model");
 
+const path = require("path");
+const fs = require("fs");
+
 const getHistoryStItem = async (req, res) => {
   // 	hs_id	status	note	updater_id	inspected_at
   // *	itemItemId	locationLId
@@ -61,7 +64,8 @@ const getHistoryStItemByItemId = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
-const updateStetus = async (req, res, next) => {
+const updateStetus = async (req, res) => {
+  const name_image_damaged = req?.body?.images;
   try {
     /* name code status_item
      * facultyFId departmentDId buildingBId locationLId categoryCateId typeItemTypeId profilePfId
@@ -73,8 +77,33 @@ const updateStetus = async (req, res, next) => {
     const Item = await Items.findOne({
       where: { item_id: itemItemId },
     });
+    //
 
-    // console.log(!locationLId ? Item.locationLId : locationLId);
+    if (name_image_damaged) {
+      // console.log(Item?.name_image_damaged);
+      // console.log(name_image_damaged);
+      // 
+      if (Item?.name_image_damaged) {
+        let imagePath = path.resolve(
+          "src/public/images/damaged/" + Item?.name_image_damaged
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("delete", imagePath);
+        }
+      }
+      await Items.update(
+        {
+          name_image_damaged: name_image_damaged[0],
+        },
+        {
+          where: {
+            item_id: itemItemId,
+          },
+        }
+      );
+    }
+    // console.log(locationLId );
     // * 	itemItemId	locationLId
 
     // console.log(isHave.updateSt_id);

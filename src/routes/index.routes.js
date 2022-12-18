@@ -232,11 +232,23 @@ router.get(
   auth,
   HistoryStItemController.getHistoryStItemByItemId
 );
+
 router.post(
   "/updateStetus",
   auth,
   getIdProfile,
   verifyIsAdminGet,
+  HistoryStItemController.updateStetus
+);
+// 
+router.post(
+  "/updateStetusPhoto",
+  auth,
+  getIdProfile,
+  verifyIsAdminGet,
+  uploadController.uploadImages,
+  uploadController.resizeImagesItemDamaged,
+  uploadController.getResult,
   HistoryStItemController.updateStetus
 );
 

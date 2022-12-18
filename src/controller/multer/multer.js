@@ -55,6 +55,29 @@ const resizeImagesItem = async (req, res, next) => {
 
   next();
 };
+const resizeImagesItemDamaged = async (req, res, next) => {
+  if (!req.files) return next();
+
+  req.body.images = [];
+  await Promise.all(
+    req.files.map(async (file) => {
+      // const filename = file.originalname.replace(/\..+$/, "");
+      const newFilename =
+        Date.now() + Math.round(Math.random() * 1000) + ".jpg";
+
+      await sharp(file.buffer)
+        .resize(500, 500)
+        .toFormat("jpeg")
+        .jpeg({ quality: 100 })
+        //
+        .toFile(`src/public/images/damaged/${newFilename}`);
+
+      req.body.images.push(newFilename);
+    })
+  );
+
+  next();
+};
 
 const resizeImagesProfile = async (req, res, next) => {
   if (!req.files) return next();
@@ -94,6 +117,7 @@ const getResult = async (req, res, next) => {
 module.exports = {
   uploadImages: uploadImages,
   resizeImagesItem: resizeImagesItem,
+  resizeImagesItemDamaged: resizeImagesItemDamaged,
   resizeImagesProfile: resizeImagesProfile,
   getResult: getResult,
 };
