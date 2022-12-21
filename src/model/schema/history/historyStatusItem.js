@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const historyStatusItem = sequelize.define(
-    "history_Status_Items",
+    "history_status_items",
     {
       hs_id: {
         type: Sequelize.INTEGER,

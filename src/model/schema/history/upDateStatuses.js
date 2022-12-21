@@ -1,6 +1,6 @@
 module.exports = (sequelize, Sequelize) => {
   const upDateStatuses = sequelize.define(
-    "up_Date_Statuses",
+    "up_date_statuses",
     {
       updateSt_id: {
         type: Sequelize.INTEGER,
