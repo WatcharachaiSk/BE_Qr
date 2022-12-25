@@ -12,6 +12,7 @@ const {
   TypeItems,
   Profiles,
   UpDateStatuses,
+  HistoryStatusItems,
 } = require("../../model/index.model");
 
 // async ==> await
@@ -245,12 +246,57 @@ const updateItem = async (req, res) => {
 const deleteItem = async (req, res) => {
   try {
     const item_id = req.body.id;
-
-    await Items.destroy({
-      where: {
-        item_id: item_id,
-      },
+    const item_name = req.body.name;
+    const item = await Items.findOne({
+      where: { item_id: item_id },
     });
+
+    // console.log(item_name);
+    // console.log(item.name_image_item);
+
+    if (item_name === item?.name) {
+      //
+      if (item?.name_image_item) {
+        let imagePath = path.resolve(
+          "src/public/images/items/" + item?.name_image_item
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("delete", imagePath);
+        }
+      }
+      if (item?.name_image_damaged) {
+        let imagePath = path.resolve(
+          "src/public/images/items/" + item?.name_image_damaged
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("delete", imagePath);
+        }
+      }
+      //
+      await HistoryStatusItems.destroy({
+        where: {
+          itemItemId: item_id,
+        },
+      });
+      await UpDateStatuses.destroy({
+        where: {
+          itemItemId: item_id,
+        },
+      });
+      await Items.destroy({
+        where: {
+          item_id: item_id,
+        },
+      });
+    } else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+
     return res.send({ status: 1, msg: "delete success" });
   } catch (err) {
     return res.status(500).send(err.message);
