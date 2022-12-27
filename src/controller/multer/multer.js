@@ -43,7 +43,7 @@ const resizeImagesItem = async (req, res, next) => {
         Date.now() + Math.round(Math.random() * 1000) + ".jpg";
 
       await sharp(file.buffer)
-        .resize(500, 500)
+        .resize(600, 450)
         .toFormat("jpeg")
         .jpeg({ quality: 100 })
         //
@@ -66,7 +66,7 @@ const resizeImagesItemDamaged = async (req, res, next) => {
         Date.now() + Math.round(Math.random() * 1000) + ".jpg";
 
       await sharp(file.buffer)
-        .resize(500, 500)
+        .resize(600, 450)
         .toFormat("jpeg")
         .jpeg({ quality: 100 })
         //
@@ -90,7 +90,7 @@ const resizeImagesProfile = async (req, res, next) => {
         Date.now() + Math.round(Math.random() * 1000) + ".jpg";
 
       await sharp(file.buffer)
-        .resize(500, 500)
+        .resize(600, 450)
         .toFormat("jpeg")
         .jpeg({ quality: 100 })
         //

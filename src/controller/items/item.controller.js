@@ -155,7 +155,7 @@ const updateItem = async (req, res) => {
       buildingBId,
       categoryCateId,
       // locationLId,
-      typeItemTypeId,
+      typeitemTypeId,
       //
       nameImage_delete,
     } = req.body;
@@ -175,7 +175,7 @@ const updateItem = async (req, res) => {
         buildingBId: buildingBId,
         categoryCateId: categoryCateId,
         // locationLId: locationLId,
-        typeItemTypeId: typeItemTypeId,
+        typeitemTypeId: typeitemTypeId,
       },
       {
         where: {
