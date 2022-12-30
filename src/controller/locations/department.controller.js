@@ -1,7 +1,6 @@
 require("dotenv").config();
 
-const { Departments } = require("../../model/index.model");
-const { Facultys } = require("../../model/index.model");
+const { Facultys, Profiles, Departments } = require("../../model/index.model");
 
 const createDepartment = async (req, res) => {
   try {
@@ -20,16 +19,37 @@ const createDepartment = async (req, res) => {
   }
 };
 const getDepartment = async (req, res) => {
+  // console.log(res.isAdmin);
   try {
-    const Department = await Departments.findAll({
-      include: [
-        {
-          model: Facultys,
-        },
-      ],
-      order: [["d_id", "ASC"]],
-    });
-    return res.send(Department);
+    let isAdmin = res.isAdmin;
+    const user = await res.locals;
+    if (isAdmin) {
+      const Department = await Departments.findAll({
+        include: [
+          {
+            model: Facultys,
+          },
+        ],
+        order: [["d_id", "ASC"]],
+      });
+      return res.send(Department);
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
+      // console.log(userProfiles);
+
+      const Department = await Departments.findAll({
+        where: { d_id: userProfiles.departmentDId },
+        include: [
+          {
+            model: Facultys,
+          },
+        ],
+        order: [["d_id", "ASC"]],
+      });
+      return res.send(Department);
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }

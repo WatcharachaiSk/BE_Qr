@@ -1,7 +1,7 @@
 require("dotenv").config();
 
-const { Profiles } = require("../../model/index.model");
-const jwt = require("jsonwebtoken");
+const { Profiles, Facultys, Departments } = require("../../model/index.model");
+// const jwt = require("jsonwebtoken");
 
 // Create
 const createProfile = async (req, res) => {
@@ -47,6 +47,14 @@ const getProfile = async (req, res) => {
       where: {
         userUserId: userUserId,
       },
+      include: [
+        {
+          model: Facultys,
+        },
+        {
+          model: Departments,
+        },
+      ],
       order: [["userUserId", "ASC"]],
     });
     return res.send(Profile);

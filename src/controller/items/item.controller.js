@@ -51,7 +51,7 @@ const createItem = async (req, res) => {
       buildingBId: buildingBId,
       categoryCateId: categoryCateId,
       locationLId: locationLId,
-      typeItemTypeId: typeItemTypeId,
+      typeitemTypeId: typeItemTypeId,
       profilePfId: profilePfId,
     });
 

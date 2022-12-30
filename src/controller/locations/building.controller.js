@@ -1,8 +1,11 @@
 require("dotenv").config();
 
-const { Facultys } = require("../../model/index.model");
-const { Departments } = require("../../model/index.model");
-const { Buildings } = require("../../model/index.model");
+const {
+  Facultys,
+  Profiles,
+  Departments,
+  Buildings,
+} = require("../../model/index.model");
 
 const createBuilding = async (req, res) => {
   try {
@@ -22,23 +25,52 @@ const createBuilding = async (req, res) => {
 };
 const getBuilding = async (req, res) => {
   try {
-    const Building = await Buildings.findAll({
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-      ],
-      order: [["b_id", "ASC"]],
-    });
-    if (Building) return res.send(Building);
-    else {
-      return res.status(404).send({
-        status: "404",
-        error: "Not Found",
+    let isAdmin = res.isAdmin;
+    const user = await res.locals;
+
+    if (isAdmin) {
+      const Building = await Buildings.findAll({
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+        ],
+        order: [["b_id", "ASC"]],
       });
+      if (Building) return res.send(Building);
+      else {
+        return res.status(404).send({
+          status: "404",
+          error: "Not Found",
+        });
+      }
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
+
+      const Building = await Buildings.findAll({
+        where: { departmentDId: userProfiles.departmentDId },
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+        ],
+        order: [["b_id", "ASC"]],
+      });
+      if (Building) return res.send(Building);
+      else {
+        return res.status(404).send({
+          status: "404",
+          error: "Not Found",
+        });
+      }
     }
   } catch (err) {
     return res.status(500).send(err.message);

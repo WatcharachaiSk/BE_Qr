@@ -94,7 +94,12 @@ router.post("/deleteFaculty", auth, FacultyController.deleteFaculty);
 
 //Department
 router.post("/createDepartment", auth, DepartmentController.createDepartment);
-router.get("/getDepartment", auth, DepartmentController.getDepartment);
+router.get(
+  "/getDepartment",
+  auth,
+  verifyIsAdminGet,
+  DepartmentController.getDepartment
+);
 router.get(
   "/getDepartmentByFtyId/:id",
   auth,
@@ -110,7 +115,7 @@ router.post("/deleteDepartment", auth, DepartmentController.deleteDepartment);
 
 //Building
 router.post("/createBuilding", auth, BuildingController.createBuilding);
-router.get("/getBuilding", auth, BuildingController.getBuilding);
+router.get("/getBuilding", auth,verifyIsAdminGet, BuildingController.getBuilding);
 router.get("/getBuilding/:id", auth, BuildingController.getBuildingBy_Id);
 router.get(
   "/getBuildingByDpmId/:id",
@@ -240,7 +245,7 @@ router.post(
   verifyIsAdminGet,
   HistoryStItemController.updateStetus
 );
-// 
+//
 router.post(
   "/updateStetusPhoto",
   auth,
