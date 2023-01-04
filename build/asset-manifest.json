@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.22a13a9f.css",
+    "main.js": "/static/js/main.5ad77b5f.js",
+    "static/media/Kanit-ExtraBold.ttf": "/static/media/Kanit-ExtraBold.c4e2a525f567e676a819.ttf",
+    "static/media/Kanit-Black.ttf": "/static/media/Kanit-Black.ff456266a65e712bce54.ttf",
+    "static/media/Kanit-Bold.ttf": "/static/media/Kanit-Bold.46cd98a815b9874526ad.ttf",
+    "static/media/Kanit-Italic.ttf": "/static/media/Kanit-Italic.af5b1c62659b287d31b6.ttf",
+    "static/media/Kanit-Medium.ttf": "/static/media/Kanit-Medium.786fd6bb96ce0cf5c5b2.ttf",
+    "static/media/Kanit-Light.ttf": "/static/media/Kanit-Light.7b6b95563f4c5697d973.ttf",
+    "static/media/Kanit-ExtraLight.ttf": "/static/media/Kanit-ExtraLight.c30ae435f86553872b17.ttf",
+    "static/media/Scan.png": "/static/media/Scan.f1db56d8a0c950bbd52a.png",
+    "static/media/detail.png": "/static/media/detail.615847316b39a2971761.png",
+    "static/media/login.png": "/static/media/login.d6d4b686d816794d961c.png",
+    "static/media/scss.png": "/static/media/scss.6deec1c864ebba2b5134.png",
+    "static/media/Status.png": "/static/media/Status.d22d36385cb6599cfa7b.png",
+    "static/media/scanBf.png": "/static/media/scanBf.e7e2eaa1aac46f6a1612.png",
+    "static/media/locate.png": "/static/media/locate.f0e42f8112aad27b1045.png",
+    "static/media/home.png": "/static/media/home.e688c12f8fb0695b0563.png",
+    "static/media/upLoad_img.jpg": "/static/media/upLoad_img.52e19e54f99744b18919.jpg",
+    "index.html": "/index.html",
+    "main.22a13a9f.css.map": "/static/css/main.22a13a9f.css.map",
+    "main.5ad77b5f.js.map": "/static/js/main.5ad77b5f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.22a13a9f.css",
+    "static/js/main.5ad77b5f.js"
+  ]
+}
