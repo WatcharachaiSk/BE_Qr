@@ -35,6 +35,12 @@ db.Locations = require("./schema/locations/locations.js")(sequelize, Sequelize);
 db.Categorys = require("./schema/item/category.js")(sequelize, Sequelize);
 db.TypeItems = require("./schema/item/typeItem")(sequelize, Sequelize);
 db.Items = require("./schema/item/item.js")(sequelize, Sequelize);
+db.ImgItems = require("./schema/images/imgItem.js")(sequelize, Sequelize);
+db.ImgItemDamageds = require("./schema/images/imgItemDamaged.js")(
+  sequelize,
+  Sequelize
+);
+
 // Update Item
 db.HistoryStatusItems = require("./schema/history/historyStatusItem")(
   sequelize,
@@ -55,8 +61,10 @@ const {
   Categorys,
   TypeItems,
   Items,
+  ImgItems,
   HistoryStatusItems,
   UpDateStatuses,
+  ImgItemDamageds,
 } = db;
 
 // Users
@@ -72,6 +80,12 @@ Profiles.belongsTo(Departments);
 // มี belongsTo 1
 Facultys.hasMany(Departments);
 Departments.belongsTo(Facultys);
+
+Items.hasMany(ImgItems);
+ImgItems.belongsTo(Items);
+//  TODO
+HistoryStatusItems.hasMany(ImgItemDamageds);
+ImgItemDamageds.belongsTo(HistoryStatusItems);
 
 // Buildings
 Facultys.hasMany(Buildings);

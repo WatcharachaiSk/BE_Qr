@@ -11,6 +11,9 @@ const LocationController = require("../controller/locations/location.controller"
 const CategoryController = require("../controller/items/category.controller");
 const TypeItemController = require("../controller/items/typeItem.controller");
 const ItemController = require("../controller/items/item.controller");
+
+const ImgItemsController = require("../controller/items/imgItem/img_item.controller");
+
 const HistoryStItemController = require("../controller/history/historyStItem.controller");
 const GetItem = require("../controller/items/getItem");
 const GetByIdType = require("../controller/items/components/getByIdType");
@@ -115,7 +118,12 @@ router.post("/deleteDepartment", auth, DepartmentController.deleteDepartment);
 
 //Building
 router.post("/createBuilding", auth, BuildingController.createBuilding);
-router.get("/getBuilding", auth,verifyIsAdminGet, BuildingController.getBuilding);
+router.get(
+  "/getBuilding",
+  auth,
+  verifyIsAdminGet,
+  BuildingController.getBuilding
+);
 router.get("/getBuilding/:id", auth, BuildingController.getBuildingBy_Id);
 router.get(
   "/getBuildingByDpmId/:id",
@@ -198,6 +206,16 @@ router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 // Item
 router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.post(
+  "/createImgItems",
+  auth,
+  getIdProfile,
+  uploadController.uploadImages,
+  uploadController.resizeImagesItem,
+  uploadController.getResult,
+  ImgItemsController.createImgItems
+);
+
+router.post(
   "/createItemPhoto",
   auth,
   getIdProfile,
@@ -225,6 +243,7 @@ router.put(
   ItemController.updateItem
 );
 router.post("/deleteItem", auth, ItemController.deleteItem);
+router.post("/deleteImgItems", auth, ImgItemsController.deleteImgItems);
 
 // HistoryStItem
 router.get(

@@ -8,7 +8,39 @@ const {
   TypeItems,
   Profiles,
   UpDateStatuses,
+  ImgItems,
 } = require("../../model/index.model");
+
+const itemInclude = [
+  {
+    model: Facultys,
+  },
+  {
+    model: Departments,
+  },
+  {
+    model: Buildings,
+  },
+  {
+    model: Locations,
+  },
+  {
+    model: Categorys,
+  },
+  {
+    model: TypeItems,
+  },
+  {
+    model: Profiles,
+  },
+  {
+    model: UpDateStatuses,
+  },
+  {
+    model: ImgItems,
+    attributes: ["imgItem_Id", "name_image_item", "itemItemId"],
+  },
+];
 
 // GET All
 const getItemById = async (req, res) => {
@@ -17,32 +49,7 @@ const getItemById = async (req, res) => {
   try {
     const Item = await Items.findOne({
       where: { item_id: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
     return res.send(Item);
@@ -57,32 +64,7 @@ const getItemByCategoryID = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { categoryCateId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
     return res.send(Item);
@@ -96,32 +78,7 @@ const getItemByTypeID = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { typeItemTypeId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
     return res.send(Item);
@@ -136,32 +93,7 @@ const getItemByFty_Id = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { facultyFId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
 
@@ -183,32 +115,7 @@ const getItemByDpm_Id = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { departmentDId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
 
@@ -230,32 +137,7 @@ const getItemByBud_Id = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { buildingBId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
 
@@ -276,32 +158,7 @@ const getItemByLocat_Id = async (req, res) => {
   try {
     const Item = await Items.findAll({
       where: { locationLId: id },
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-        {
-          model: Locations,
-        },
-        {
-          model: Categorys,
-        },
-        {
-          model: TypeItems,
-        },
-        {
-          model: Profiles,
-        },
-        {
-          model: UpDateStatuses,
-        },
-      ],
+      include: itemInclude,
       order: [["item_id", "ASC"]],
     });
 
@@ -323,5 +180,5 @@ module.exports = {
   getItemByFty_Id: getItemByFty_Id,
   getItemByDpm_Id: getItemByDpm_Id,
   getItemByBud_Id: getItemByBud_Id,
-  getItemByLocat_Id:getItemByLocat_Id
+  getItemByLocat_Id: getItemByLocat_Id,
 };

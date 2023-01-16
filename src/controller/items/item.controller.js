@@ -13,6 +13,7 @@ const {
   Profiles,
   UpDateStatuses,
   HistoryStatusItems,
+  ImgItems,
 } = require("../../model/index.model");
 
 // async ==> await
@@ -63,38 +64,43 @@ const createItem = async (req, res) => {
 // GET All
 const getItem = async (req, res) => {
   // console.log(res.isAdmin);
+  const itemInclude = [
+    {
+      model: Facultys,
+    },
+    {
+      model: Departments,
+    },
+    {
+      model: Buildings,
+    },
+    {
+      model: Locations,
+    },
+    {
+      model: Categorys,
+    },
+    {
+      model: TypeItems,
+    },
+    {
+      model: Profiles,
+    },
+    {
+      model: UpDateStatuses,
+    },
+    {
+      model: ImgItems,
+      attributes: ["imgItem_Id", "name_image_item", "itemItemId"],
+    },
+  ];
 
   try {
     const user = await res.locals;
     let items;
     if (res.isAdmin) {
       items = await Items.findAll({
-        include: [
-          {
-            model: Facultys,
-          },
-          {
-            model: Departments,
-          },
-          {
-            model: Buildings,
-          },
-          {
-            model: Locations,
-          },
-          {
-            model: Categorys,
-          },
-          {
-            model: TypeItems,
-          },
-          {
-            model: Profiles,
-          },
-          {
-            model: UpDateStatuses,
-          },
-        ],
+        include: itemInclude,
         order: [["item_id", "ASC"]],
       });
     } else {
@@ -104,32 +110,7 @@ const getItem = async (req, res) => {
 
       items = await Items.findAll({
         where: { departmentDId: userProfiles.departmentDId },
-        include: [
-          {
-            model: Facultys,
-          },
-          {
-            model: Departments,
-          },
-          {
-            model: Buildings,
-          },
-          {
-            model: Locations,
-          },
-          {
-            model: Categorys,
-          },
-          {
-            model: TypeItems,
-          },
-          {
-            model: Profiles,
-          },
-          {
-            model: UpDateStatuses,
-          },
-        ],
+        include: itemInclude,
         order: [["item_id", "ASC"]],
       });
     }
