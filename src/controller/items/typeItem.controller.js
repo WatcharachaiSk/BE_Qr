@@ -167,6 +167,52 @@ const updateTypeItem = async (req, res) => {
   }
 };
 
+// Update
+const updateTypeItemByOne = async (req, res) => {
+  try {
+    const type_id = req.params.id;
+    const {
+      name,
+      code,
+      quantity,
+      unit,
+      price_unit,
+      total_price,
+      purchase_date,
+      departmentDId,
+      categoryCateId,
+    } = req.body;
+
+    const typeItem = await TypeItems.findOne({
+      where: { type_id: type_id },
+    });
+
+    const updateTypeItem = await TypeItems.update(
+      {
+        name: name ? name : typeItem.name,
+        code: code ? code : typeItem.code,
+        quantity: quantity ? quantity : typeItem.quantity,
+        unit: unit ? unit : typeItem.unit,
+        price_unit: price_unit ? price_unit : typeItem.price_unit,
+        total_price: total_price ? total_price : typeItem.total_price,
+        purchase_date: purchase_date ? purchase_date : typeItem.purchase_date,
+        departmentDId: departmentDId ? departmentDId : typeItem.departmentDId,
+        categoryCateId: categoryCateId
+          ? categoryCateId
+          : typeItem.categoryCateId,
+      },
+      {
+        where: {
+          type_id: type_id,
+        },
+      }
+    );
+    return res.send({ updateTypeItem });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
 // Delete
 const deleteTypeItem = async (req, res) => {
   try {
@@ -187,5 +233,6 @@ module.exports = {
   createTypeItem: createTypeItem,
   getTypeItem: getTypeItem,
   updateTypeItem: updateTypeItem,
+  updateTypeItemByOne: updateTypeItemByOne,
   deleteTypeItem: deleteTypeItem,
 };

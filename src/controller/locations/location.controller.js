@@ -3,7 +3,7 @@ require("dotenv").config();
 const { Facultys } = require("../../model/index.model");
 const { Departments } = require("../../model/index.model");
 const { Buildings } = require("../../model/index.model");
-const { Locations } = require("../../model/index.model");
+const { Locations,Profiles } = require("../../model/index.model");
 
 const createLocation = async (req, res) => {
   try {
@@ -26,28 +26,62 @@ const createLocation = async (req, res) => {
 };
 const getLocation = async (req, res) => {
   try {
-    const Location = await Locations.findAll({
-      include: [
-        {
-          model: Facultys,
-        },
-        {
-          model: Departments,
-        },
-        {
-          model: Buildings,
-        },
-      ],
+    let isAdmin = res.isAdmin;
+    const user = await res.locals;
+    // console.log(isAdmin);
+    if (isAdmin) {
+      const Location = await Locations.findAll({
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+          {
+            model: Buildings,
+          },
+        ],
 
-      order: [["l_id", "ASC"]],
-    });
-
-    if (Location) return res.send(Location);
-    else {
-      return res.status(404).send({
-        status: "404",
-        error: "Not Found",
+        order: [["l_id", "ASC"]],
       });
+
+      if (Location) return res.send(Location);
+      else {
+        return res.status(404).send({
+          status: "404",
+          error: "Not Found",
+        });
+      }
+    } else {
+      const userProfiles = await Profiles.findOne({
+        where: { userUserId: user.user_id },
+      });
+      console.log(userProfiles);
+      const Location = await Locations.findAll({
+        where: { departmentDId: userProfiles.departmentDId },
+        include: [
+          {
+            model: Facultys,
+          },
+          {
+            model: Departments,
+          },
+          {
+            model: Buildings,
+          },
+        ],
+
+        order: [["l_id", "ASC"]],
+      });
+
+      if (Location) return res.send(Location);
+      else {
+        return res.status(404).send({
+          status: "404",
+          error: "Not Found",
+        });
+      }
     }
   } catch (err) {
     return res.status(500).send(err.message);
@@ -116,6 +150,7 @@ const getLocationByFty_Id = async (req, res) => {
 };
 const getLocationByDpm_Id = async (req, res) => {
   const { id } = req.params;
+
   try {
     const Location = await Locations.findAll({
       where: { departmentDId: id },

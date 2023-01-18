@@ -140,7 +140,12 @@ router.post("/deleteBuilding", auth, BuildingController.deleteBuilding);
 
 //Location
 router.post("/createLocation", auth, LocationController.createLocation);
-router.get("/getLocation", auth, LocationController.getLocation);
+router.get(
+  "/getLocation",
+  auth,
+  verifyIsAdminGet,
+  LocationController.getLocation
+);
 router.get("/getLocation/:id", auth, LocationController.getLocationBy_Id);
 router.get(
   "/getLocationByFty_Id/:id",
@@ -201,6 +206,12 @@ router.get("/getTypeItemByCate_Id/:id", auth, GetByIdType.getTypeItemByCate_Id);
 router.get("/getTypeItemByDpmId/:id", auth, GetByIdType.getTypeItemByDpmId);
 
 router.put("/updateTypeItem/:id", auth, TypeItemController.updateTypeItem);
+router.put(
+  "/updateTypeItemByOne/:id",
+  auth,
+  TypeItemController.updateTypeItemByOne
+);
+
 router.post("/deleteTypeItem", auth, TypeItemController.deleteTypeItem);
 
 // Item

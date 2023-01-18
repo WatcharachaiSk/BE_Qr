@@ -141,22 +141,21 @@ const updateItem = async (req, res) => {
       nameImage_delete,
     } = req.body;
 
-    // console.log("nameImage_delete = " + nameImage_delete);
-    // console.log("name_image = " + name_image);
+    const item = await Items.findOne({
+      where: { item_id: item_id },
+    });
 
     const updateItem = await Items.update(
       {
-        name: name,
-        code: code,
-        // status_item: status_item,
-        price: price,
-        description: description,
-        facultyFId: facultyFId,
-        departmentDId: departmentDId,
-        buildingBId: buildingBId,
-        categoryCateId: categoryCateId,
-        // locationLId: locationLId,
-        typeitemTypeId: typeitemTypeId,
+        name: name ? name : item.name,
+        code: code ? code : item.code,
+        price: price ? price : item.price,
+        description: description ? description : item.description,
+        facultyFId: facultyFId ? facultyFId : item.facultyFId,
+        departmentDId: departmentDId ? departmentDId : item.departmentDId,
+        buildingBId: buildingBId ? buildingBId : item.buildingBId,
+        categoryCateId: categoryCateId ? categoryCateId : item.categoryCateId,
+        typeitemTypeId: typeitemTypeId ? typeitemTypeId : item.typeitemTypeId,
       },
       {
         where: {
