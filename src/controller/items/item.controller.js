@@ -230,9 +230,23 @@ const deleteItem = async (req, res) => {
     const item = await Items.findOne({
       where: { item_id: item_id },
     });
-
-    // console.log(item_name);
+    const imgItems = await ImgItems.findAll({
+      where: { itemItemId: item_id },
+    });
+    // console.log(imgItems.length);
     // console.log(item.name_image_item);
+    if (imgItems.length != 0) {
+      for (let i = 0; i < imgItems.length; i++) {
+        console.log("src/public/images/items/" + imgItems[i]?.name_image_item);
+        let imagePath = path.resolve(
+          "src/public/images/items/" + imgItems[i]?.name_image_item
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("delete", imagePath);
+        }
+      }
+    }
 
     if (item_name === item?.name) {
       //
@@ -254,6 +268,10 @@ const deleteItem = async (req, res) => {
           //console.log("delete", imagePath);
         }
       }
+      //
+      await ImgItems.destroy({
+        where: { itemItemId: item_id },
+      });
       //
       await HistoryStatusItems.destroy({
         where: {

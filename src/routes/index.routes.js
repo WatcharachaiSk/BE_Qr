@@ -219,7 +219,6 @@ router.post("/createItem", auth, getIdProfile, ItemController.createItem);
 router.post(
   "/createImgItems",
   auth,
-  getIdProfile,
   uploadController.uploadImages,
   uploadController.resizeImagesItem,
   uploadController.getResult,
