@@ -49,6 +49,13 @@ router.get("/checkToken", auth, (req, res) => {
 
 //User
 router.post("/createUser", UserController.createUser);
+router.post(
+  "/updateUserBlock",
+  auth,
+  verifyIsAdmin,
+  UserController.updateUserBlock
+);
+
 //
 router.post(
   "/createUserPhoto",

@@ -53,7 +53,7 @@ const deleteImgItems = async (req, res) => {
         );
         if (fs.existsSync(imagePath)) {
           fs.unlinkSync(imagePath);
-          //console.log("delete", imagePath);
+          //console.log("d elete", imagePath);
         }
       }
 

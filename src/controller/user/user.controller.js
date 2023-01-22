@@ -178,22 +178,6 @@ const loginUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    // const users = await Users.findAll({
-    //   attributes: [
-    //     "user_id",
-    //     "username",
-    //     "user_status",
-    //     "admin",
-    //     "createdAt",
-    //     "updatedAt",
-    //   ],
-    //   // include: [
-    //   //   {
-    //   //     model: Profiles,
-    //   //   },
-    //   // ],
-    //   order: [["user_id", "ASC"]],
-    // });
     const profiles = await Profiles.findAll({
       include: [
         {
@@ -241,11 +225,7 @@ const updateUser = async (req, res) => {
       //
       nameImage_delete,
     } = req.body;
-    //
-    // console.log("nameImage_delete = " + nameImage_delete);
-    // console.log("name_image = " + name_image);
-    // console.log("password = " + password);
-    //
+
     if (password) {
       encryptedPassword = await bcrypt.hash(password, 10);
       const updateUser = await Users.update(
@@ -324,9 +304,31 @@ const updateUser = async (req, res) => {
   }
 };
 
+const updateUserBlock = async (req, res) => {
+  try {
+    // const isAdmin = res.isAdmin;
+    const { user_id, user_status } = req.body;
+    await Users.update(
+      {
+        user_status: user_status,
+      },
+      {
+        where: {
+          user_id: user_id,
+        },
+      }
+    );
+
+    return res.send({ status: 1, msg: "updateUserBlock success" });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
 module.exports = {
   createUser: createUser,
   getUsers: getUsers,
   updateUser: updateUser,
   loginUser: loginUser,
+  updateUserBlock: updateUserBlock,
 };
