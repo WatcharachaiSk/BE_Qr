@@ -5,6 +5,7 @@ const {
   Locations,
   Users,
   Profiles,
+  ImgItemDamageds,
 } = require("../../model/index.model");
 
 const path = require("path");
@@ -15,7 +16,7 @@ const getHistoryStItem = async (req, res) => {
   // *	itemItemId	locationLId
 
   try {
-    const HistoryStatusItem = await HistoryStatusItems.findAll({
+    const historyStatusItem = await HistoryStatusItems.findAll({
       include: [
         {
           model: Items,
@@ -26,11 +27,14 @@ const getHistoryStItem = async (req, res) => {
         {
           model: Profiles,
         },
+        {
+          model: ImgItemDamageds,
+        },
       ],
       order: [["hs_id", "ASC"]],
     });
 
-    return res.send(HistoryStatusItem);
+    return res.send(historyStatusItem);
   } catch (err) {
     return res.status(500).send(err.message);
   }
@@ -55,6 +59,9 @@ const getHistoryStItemByItemId = async (req, res) => {
         {
           model: Profiles,
         },
+        {
+          model: ImgItemDamageds,
+        },
       ],
       order: [["hs_id", "DESC"]],
     });
@@ -77,21 +84,24 @@ const updateStetus = async (req, res) => {
     const Item = await Items.findOne({
       where: { item_id: itemItemId },
     });
-    //
 
+    //!
+    let imgItemDamage;
     if (name_image_damaged) {
-      // console.log(Item?.name_image_damaged);
-      // console.log(name_image_damaged);
-      // 
-      if (Item?.name_image_damaged) {
-        let imagePath = path.resolve(
-          "src/public/images/damaged/" + Item?.name_image_damaged
-        );
-        if (fs.existsSync(imagePath)) {
-          fs.unlinkSync(imagePath);
-          //console.log("delete", imagePath);
-        }
-      }
+      imgItemDamage = await ImgItemDamageds.create({
+        name_image_item_damaged: name_image_damaged[0],
+        itemItemId: itemItemId,
+      });
+      //
+      // if (Item?.name_image_damaged) {
+      //   let imagePath = path.resolve(
+      //     "src/public/images/damaged/" + Item?.name_image_damaged
+      //   );
+      //   if (fs.existsSync(imagePath)) {
+      //     fs.unlinkSync(imagePath);
+      //     //console.log("delete", imagePath);
+      //   }
+      // }
       await Items.update(
         {
           name_image_damaged: name_image_damaged[0],
@@ -103,12 +113,12 @@ const updateStetus = async (req, res) => {
         }
       );
     }
-    // console.log(locationLId );
-    // * 	itemItemId	locationLId
 
-    // console.log(isHave.updateSt_id);
+    // * itemItemId	locationLId
+
+    let historyStIten;
     if (isAdmin) {
-      const historyStIten = await HistoryStatusItems.create({
+      historyStIten = await HistoryStatusItems.create({
         itemItemId: itemItemId,
         locationLId: !locationLId ? Item.locationLId : locationLId,
         status: status,
@@ -151,7 +161,7 @@ const updateStetus = async (req, res) => {
         where: { pf_id: profilePfId },
       });
       if (user.departmentDId == Item.departmentDId) {
-        const historyStIten = await HistoryStatusItems.create({
+        historyStIten = await HistoryStatusItems.create({
           itemItemId: itemItemId,
           locationLId: !locationLId ? Item.locationLId : locationLId,
           status: status,
@@ -196,9 +206,25 @@ const updateStetus = async (req, res) => {
       }
     }
 
+    // console.log(imgItemDamage.imgItemDm_id);
+    // console.log("historyStIten.hs_id" + historyStIten.hs_id);
+    // TODO
+    if (imgItemDamage) {
+      await ImgItemDamageds.update(
+        {
+          historyStatusItemHsId: historyStIten.hs_id,
+        },
+        {
+          where: { imgItemDm_id: imgItemDamage.imgItemDm_id },
+        }
+      );
+    }
+
+    // TODO
     const updateStetus = await UpDateStatuses.findOne({
       where: { itemItemId: itemItemId },
     });
+    // TODO
     await Items.update(
       {
         status_item: status,
@@ -211,7 +237,7 @@ const updateStetus = async (req, res) => {
         },
       }
     );
-
+    //TODO
     const items = await Items.findOne({
       where: { item_id: itemItemId },
     });

@@ -86,6 +86,8 @@ ImgItems.belongsTo(Items);
 //  TODO
 HistoryStatusItems.hasMany(ImgItemDamageds);
 ImgItemDamageds.belongsTo(HistoryStatusItems);
+Items.hasMany(ImgItemDamageds);
+ImgItemDamageds.belongsTo(Items);
 
 // Buildings
 Facultys.hasMany(Buildings);

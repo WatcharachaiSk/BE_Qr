@@ -14,6 +14,7 @@ const {
   UpDateStatuses,
   HistoryStatusItems,
   ImgItems,
+  ImgItemDamageds,
 } = require("../../model/index.model");
 
 // async ==> await
@@ -233,13 +234,30 @@ const deleteItem = async (req, res) => {
     const imgItems = await ImgItems.findAll({
       where: { itemItemId: item_id },
     });
-    // console.log(imgItems.length);
+    const imgItemDamageds = await ImgItemDamageds.findAll({
+      where: { itemItemId: item_id },
+    });
+    // console.log("imgItems.length = " + imgItems.length);
+    // console.log("ImgItemDamageds.length = " + imgItemDamageds.length);
     // console.log(item.name_image_item);
     if (imgItems.length != 0) {
       for (let i = 0; i < imgItems.length; i++) {
-        console.log("src/public/images/items/" + imgItems[i]?.name_image_item);
+        // console.log("src/public/images/items/" + imgItems[i]?.name_image_item);
         let imagePath = path.resolve(
           "src/public/images/items/" + imgItems[i]?.name_image_item
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("delete", imagePath);
+        }
+      }
+    }
+    if (imgItemDamageds.length != 0) {
+      for (let i = 0; i < imgItemDamageds.length; i++) {
+        // console.log("src/public/images/items/" + imgItemDamageds[i]?.name_image_item);
+        let imagePath = path.resolve(
+          "src/public/images/damaged/" +
+            imgItemDamageds[i]?.name_image_item_damaged
         );
         if (fs.existsSync(imagePath)) {
           fs.unlinkSync(imagePath);
@@ -270,6 +288,10 @@ const deleteItem = async (req, res) => {
       }
       //
       await ImgItems.destroy({
+        where: { itemItemId: item_id },
+      });
+      //
+      await ImgItemDamageds.destroy({
         where: { itemItemId: item_id },
       });
       //
