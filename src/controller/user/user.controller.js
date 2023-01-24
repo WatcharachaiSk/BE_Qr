@@ -94,7 +94,48 @@ const createUser = async (req, res) => {
     return res.status(500).send(err.message);
   }
 };
+//updateUserProfile
+const updateUserProfile = async (req, res) => {
+  try {
+    const { pf_id } = req.body;
+    // console.log(req.body.images);
+    const name_image = req?.body?.images;
 
+    const profile = await Profiles.findOne({
+      where: {
+        pf_id: pf_id,
+      },
+    });
+    // Dle Photo Profile
+    if (profile.name_image) {
+      let imagePath = path.resolve(
+        "src/public/images/profiles/" + profile.name_image
+      );
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+        //console.log("delete", imagePath);
+      }
+    }
+
+    //
+    await Profiles.update(
+      {
+        name_image: name_image[0],
+      },
+      {
+        where: {
+          pf_id: pf_id,
+        },
+      }
+    );
+    // user
+    return res
+      .status(200)
+      .json({ status: 1, msg: "updateUserProfile success" });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
 //login
 const loginUser = async (req, res) => {
   try {
@@ -331,4 +372,5 @@ module.exports = {
   updateUser: updateUser,
   loginUser: loginUser,
   updateUserBlock: updateUserBlock,
+  updateUserProfile: updateUserProfile,
 };

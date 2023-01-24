@@ -64,6 +64,14 @@ router.post(
   uploadController.getResult,
   UserController.createUser
 );
+router.post(
+  "/updateUserProfile",
+  auth,
+  uploadController.uploadImages,
+  uploadController.resizeImagesProfile,
+  uploadController.getResult,
+  UserController.updateUserProfile
+);
 //
 router.post("/loginUser", UserController.loginUser);
 router.get("/getUsers", auth, verifyIsAdmin, UserController.getUsers);
