@@ -17,6 +17,15 @@ const createImgItems = async (req, res) => {
       itemItemId: itemItemId,
     });
 
+    await Items.update(
+      {
+        name_image_item: name_image_item ? name_image_item[0] : null,
+      },
+      {
+        where: { item_id: itemItemId },
+      }
+    );
+
     const item = await Items.findOne({
       where: { item_id: itemItemId },
       include: [
@@ -41,6 +50,13 @@ const deleteImgItems = async (req, res) => {
     const imgItems = await ImgItems.findOne({
       where: { name_image_item: name_image_item },
     });
+    const imgItemsAll = await ImgItems.findAll({
+      where: { itemItemId: imgItems.itemItemId },
+    });
+
+    const item = await Items.findOne({
+      where: { item_id: imgItems.itemItemId },
+    });
 
     // console.log(name_image_item);
     // console.log(imgItems.name_image_item);
@@ -56,6 +72,27 @@ const deleteImgItems = async (req, res) => {
           //console.log("d elete", imagePath);
         }
       }
+
+      if (item.name_image_item == name_image_item)
+        if (imgItemsAll.length > 1) {
+          await Items.update(
+            {
+              name_image_item: imgItemsAll[0].name_image_item,
+            },
+            {
+              where: { item_id: imgItems.itemItemId },
+            }
+          );
+        } else {
+          await Items.update(
+            {
+              name_image_item: null,
+            },
+            {
+              where: { item_id: imgItems.itemItemId },
+            }
+          );
+        }
 
       //
       await ImgItems.destroy({
