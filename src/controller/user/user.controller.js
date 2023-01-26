@@ -160,6 +160,23 @@ const loginUser = async (req, res) => {
           expiresIn: "5h",
         }
       );
+      
+      const autToken = jwt.sign(
+        { user_id: user.user_id, username, admin: user.admin },
+        process.env.TOKEN_KEY
+      );
+      await Users.update(
+        {
+          authentication_token: autToken,
+        },
+        {
+          where: {
+            user_id: user.user_id,
+          },
+        }
+      );
+
+
 
       const userSend = await Users.findOne({
         where: { user_id: user.user_id },
@@ -170,6 +187,7 @@ const loginUser = async (req, res) => {
         ],
         order: [["user_id", "ASC"]],
       });
+
 
       // user
       const profiles = await Profiles.findOne({
