@@ -52,7 +52,15 @@ const getItemById = async (req, res) => {
       include: itemInclude,
       order: [["item_id", "ASC"]],
     });
-    return res.send(Item);
+    if (Item) {
+      // console.log("1231Item ", Item);
+      return res.send(Item);
+    } else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
   } catch (err) {
     return res.status(500).send(err.message);
   }

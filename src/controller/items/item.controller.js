@@ -97,12 +97,13 @@ const getItem = async (req, res) => {
   ];
 
   try {
+    const { order } = req.query;
     const user = await res.locals;
     let items;
     if (res.isAdmin) {
       items = await Items.findAll({
         include: itemInclude,
-        order: [["item_id", "ASC"]],
+        order: [["item_id", order != "DESC" ? "ASC" : "DESC"]],
       });
     } else {
       const userProfiles = await Profiles.findOne({
@@ -112,7 +113,7 @@ const getItem = async (req, res) => {
       items = await Items.findAll({
         where: { departmentDId: userProfiles.departmentDId },
         include: itemInclude,
-        order: [["item_id", "ASC"]],
+        order: [["item_id", order != "DESC" ? "ASC" : "DESC"]],
       });
     }
 
