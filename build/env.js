@@ -76,7 +76,7 @@ window.env = {
   "PUBLIC": "C:\\Users\\Public",
   "QT_DEVICE_PIXEL_RATIO": "auto",
   "REACT_APP_VERSION": "0.0.15(6)",
-  "REACT_ENVIRONMENT": "dev",
+  "REACT_ENVIRONMENT": "prod",
   "REACT_ENVIRONMENT_DEV": "dev",
   "REACT_ENVIRONMENT_PROD": "prod",
   "RlsSvcPort": "22112",
