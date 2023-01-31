@@ -229,7 +229,7 @@ const loginUser = async (req, res) => {
       profiles.user.web_token = token;
       return res.status(200).json(profiles);
     }
-    return res.status(400).send("Invalid Credentials");
+    return res.status(404).send("Invalid Credentials");
   } catch (err) {
     return res.status(500).send(err);
   }
