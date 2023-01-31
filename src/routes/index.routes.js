@@ -34,7 +34,7 @@ router.post(
   uploadController.getResult,
 
   (req, res) => {
-    console.log(req.body.images);
+    // console.log(req.body.images);
     return res.send(req.body.images);
   }
 );

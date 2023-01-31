@@ -11,7 +11,7 @@ const deleteImageProfile = (req, res, next) => {
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
         next()
-        console.log("delete", imagePath);
+        // console.log("delete", imagePath);
       } else {
         return res.status(404).json({
           message: "Image not found",
@@ -33,7 +33,7 @@ const deleteImageItem = (req, res) => {
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
         next()
-        console.log("delete", imagePath);
+        // console.log("delete", imagePath);
       } else {
         return res.status(404).json({
           message: "Image not found",
