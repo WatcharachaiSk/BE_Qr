@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.22a13a9f.css",
-    "main.js": "/static/js/main.608bf7f2.js",
+    "main.js": "/static/js/main.a3e411e6.js",
     "static/media/Kanit-ExtraBold.ttf": "/static/media/Kanit-ExtraBold.c4e2a525f567e676a819.ttf",
     "static/media/Kanit-Black.ttf": "/static/media/Kanit-Black.ff456266a65e712bce54.ttf",
     "static/media/Kanit-Bold.ttf": "/static/media/Kanit-Bold.46cd98a815b9874526ad.ttf",
@@ -20,10 +20,10 @@
     "static/media/upLoad_img.jpg": "/static/media/upLoad_img.52e19e54f99744b18919.jpg",
     "index.html": "/index.html",
     "main.22a13a9f.css.map": "/static/css/main.22a13a9f.css.map",
-    "main.608bf7f2.js.map": "/static/js/main.608bf7f2.js.map"
+    "main.a3e411e6.js.map": "/static/js/main.a3e411e6.js.map"
   },
   "entrypoints": [
     "static/css/main.22a13a9f.css",
-    "static/js/main.608bf7f2.js"
+    "static/js/main.a3e411e6.js"
   ]
 }
