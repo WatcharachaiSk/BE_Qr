@@ -269,6 +269,8 @@ router.put(
 );
 router.post("/deleteItem", auth, ItemController.deleteItem);
 router.post("/deleteImgItems", auth, ImgItemsController.deleteImgItems);
+router.post("/deleteImgItemsDamaged", auth, ImgItemsController.deleteImgItemsDamaged);
+
 
 // HistoryStItem
 router.get(

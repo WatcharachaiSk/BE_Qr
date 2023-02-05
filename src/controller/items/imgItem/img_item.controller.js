@@ -1,7 +1,12 @@
 const path = require("path");
 const fs = require("fs");
 
-const { Items, ImgItems } = require("../../../model/index.model");
+const {
+  Items,
+  ImgItems,
+  HistoryStatusItems,
+  ImgItemDamageds,
+} = require("../../../model/index.model");
 
 const createImgItems = async (req, res) => {
   try {
@@ -113,7 +118,60 @@ const deleteImgItems = async (req, res) => {
   }
 };
 
+const deleteImgItemsDamaged = async (req, res) => {
+  try {
+    const { name_image_item_damaged } = req.body;
+
+    //
+    const hitItem = await ImgItemDamageds.findOne({
+      where: { name_image_item_damaged: name_image_item_damaged },
+    });
+
+    // console.log(name_image_item);
+    // console.log(imgItems.name_image_item);
+    if (name_image_item_damaged === hitItem?.name_image_item_damaged) {
+      //
+      if (hitItem?.name_image_item_damaged) {
+        let imagePath = path.resolve(
+          "src/public/images/damaged/" + hitItem?.name_image_item_damaged
+        );
+        if (fs.existsSync(imagePath)) {
+          fs.unlinkSync(imagePath);
+          //console.log("d elete", imagePath);
+        }
+      }
+      // const imgItems = await ImgItems.findOne({
+      //   where: { item_id: hitItem.itemItemId },
+      // });
+
+      await Items.update(
+        {
+          name_image_damaged: null,
+        },
+        {
+          where: { item_id: hitItem.itemItemId },
+        }
+      );
+      await ImgItemDamageds.destroy({
+        where: {
+          imgItemDm_id: hitItem.imgItemDm_id,
+        },
+      });
+    } else {
+      return res.status(404).send({
+        status: "404",
+        error: "Not Found",
+      });
+    }
+
+    return res.send({ status: 1, msg: "delete success" });
+  } catch (err) {
+    return res.status(500).send(err.message);
+  }
+};
+
 module.exports = {
   createImgItems: createImgItems,
   deleteImgItems: deleteImgItems,
+  deleteImgItemsDamaged: deleteImgItemsDamaged,
 };
