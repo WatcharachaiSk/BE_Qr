@@ -73,7 +73,7 @@ window.env = {
   "PT7HOME": "C:\\Program Files\\Cisco Packet Tracer 7.3.1",
   "PUBLIC": "C:\\Users\\Public",
   "QT_DEVICE_PIXEL_RATIO": "auto",
-  "REACT_APP_VERSION": "1.0.2(1)",
+  "REACT_APP_VERSION": "1.0.2(2)",
   "REACT_ENVIRONMENT": "prod",
   "REACT_ENVIRONMENT_DEV": "dev",
   "REACT_ENVIRONMENT_PROD": "prod",
