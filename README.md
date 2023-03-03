@@ -95,7 +95,9 @@ nginx.service - A high performance web server and a reverse proxy server
 	 > ทดสอบ **Start** ระบบ ด้วย **sudo npm start**
 - ขอการอัพโหลดไฟล์รูปภาพ  ของโปรแกรม
 	> sudo chmod -R 777 /var/www/BE_Qr/src/public/images/items
+	> 
 	> sudo chmod -R 777 /var/www/BE_Qr/src/public/images/damaged
+	> 
 	> sudo chmod -R 777 /var/www/BE_Qr/src/public/images/profiles
 - ใช้ **PM2** ในการเปิดใช้งานระบบ
 	> pm2 start index.js  --max-memory-restart 120M
