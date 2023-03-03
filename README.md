@@ -8,6 +8,7 @@
 - Deploy on Ubuntu Version: **20.04**  
 - พัฒนาบน Node Version: **16.13.0**  
 - ระบบฐานข้อมูลเป็น **MySQL** 
+
 ## ติดตั้ง Environment (Development)
  #### Installing Node.js® and NPM on Windows
  > 1. Download Node.js Installer: [Download | Node.js (nodejs.org)](https://nodejs.org/en/download/)
@@ -34,7 +35,19 @@
  #### git clone โปรแกรม
  - โดยมีเครื่องมือต่างๆรองรับ เช่น **git desktop**, **sourcetree**
  >1. git clone <*repository*>
- >> <*repository*> คือ URL ของ repository ที่เราต้องการจะ clone ตัวอย่างถ้าเราต้องการจะ Clone จาก github เราก็สามารถไป Copy URL จาก github ได้เลย
+	 <*repository*> คือ URL ของ repository ที่เราต้องการจะ clone ตัวอย่างถ้าเราต้องการจะ Clone จาก github เราก็สามารถไป Copy URL จาก github ได้เลย
+	 
+## เมื่อติดตั้ง Environment (Development) เสร็จ
+- ทำการใช้ **git clone** โปรแกรม
+	 >clone https://github.../.../BE_Qr.git
+ - เปิดโฟลเดอร์ที่ได้ Clone โปรแกรม
+ - ให้ทำการติดตั้ง **Package** ของโปรแกรม
+	 >  npm install
+	 > ทดสอบ **Start** ระบบด้วย
+	 > **npm start**
+	 
+สามารถแก้ไข Config Database ได้ที่ไฟล์ `config.js` 
+>ที่อยู่ไฟล์ BE_Qr\src\config\config.js
 ## ติดตั้ง Environment (Deploy)
 #### How To Install Node.js on Ubuntu 20.04
  > 1.  sudo apt update
