@@ -48,7 +48,7 @@
   >2.  sudo apt install nginx - y
   >3.  systemctl status nginx
   >
-   -> Output:
+  >> Output:
 nginx.service - A high performance web server and a reverse proxy server
    Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
    Active: active (running) since Fri 2020-04-20 16:08:19 UTC; 3 days ago
