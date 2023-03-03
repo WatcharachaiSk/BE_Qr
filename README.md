@@ -101,9 +101,13 @@ nginx.service - A high performance web server and a reverse proxy server
 	> sudo chmod -R 777 /var/www/BE_Qr/src/public/images/profiles
 - ใช้ **PM2** ในการเปิดใช้งานระบบ
 	> pm2 start index.js  --max-memory-restart 120M
-	***หากระบบผิดพลาดสามารถอ่าน Log โดยใช้**
+	> 
+	>***หากระบบผิดพลาดสามารถอ่าน Log โดยใช้**
+	>
 	> pm2 log
-		***เช็คการ Start ระบบโดยใช้**
+	> 
+	>***เช็คการ Start ระบบโดยใช้**
+	>
 	> pm2 ls
 
 ***ถ้าหากว่า path ของระบบ Backend เปลี่ยนจะส่งผลต่อระบบ  Frontend และ Application ไปด้วยในการรับส่งข้อมูล**	
