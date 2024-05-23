@@ -131,7 +131,7 @@ nginx.service - A high performance web server and a reverse proxy server
 
 ##### ***ถ้าหากว่า path ของระบบ Backend เปลี่ยนจะส่งผลต่อระบบ  Frontend และ Application ไปด้วยในการรับส่งข้อมูล**	
 ##### ***ถ้าหากว่า path ของระบบ Backend เปลี่ยนจะส่งผลต่อระบบ  Frontend Web และ Application ต้องทำการ เปลี่ยน env ของแต่ละ และต้องทำการ build ใหม่ ทั้งหมด
-##### ***ถ้าหากว่า path ของระบบ Backend เปลี่ยนจะส่งผลต่อระบบ  Frontend Web และ Application ต้องทำการ ไฟล์ /build ในระบบ Back-end เป็น ไฟล์ build ของ Frontend Web ถ้าหากมีการเปลี่ยนแปลง env ให้ทำการนำไฟลcopy build มาแทนที่
+##### ***ถ้าหากว่า path ของระบบ Backend เปลี่ยนจะส่งผลต่อระบบ  Frontend Web และ Application ต้องทำการ ไฟล์ /build ในระบบ Back-end เป็น ไฟล์ build ของ Frontend Web ถ้าหากมีการเปลี่ยนแปลง env ให้ทำการทำการ copy จาก Frontend Web มาแทนที่ build เดิม
 
 
 #### *สงวนลิขสิทธิ์ ใช้ภายใน มหาวิทยาลัยเทคโนโลยี ราชมงคลอีสานวิทยาเขต ขอนแก่น.
